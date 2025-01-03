@@ -1,6 +1,8 @@
 class AppAssets {
   //Logos
-  static const String APP_LOGO = 'assets/logo/user_app_logo.png';
+  // static const String APP_LOGO = 'assets/logo/app_logo.png';
+  static const String APP_LOGO = 'assets/logo/app_logo_head.png';
+  static const String APP_BG= 'assets/logo/bg.png';
   // Default Image
   static const String DEFAULT_IMAGE = 'assets/image/default_image.png';
   static const String DEFAULT_STORY_IMAGE =
