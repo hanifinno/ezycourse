@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../config/app_assets.dart';
 import '../models/post.dart';
-import 'post/post_footer/post_footer.dart';
 import 'single_image.dart';
 
 class MultipleImageTile extends StatelessWidget {

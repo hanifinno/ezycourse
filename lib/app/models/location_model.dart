@@ -110,7 +110,7 @@ class AllLocation {
 
   @override
   String toString() {
-    return '${locationName??''}';
+    return locationName??'';
   }
 
 

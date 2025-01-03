@@ -176,9 +176,9 @@ ReactionModel? getSelectedCommentReaction(
   CommentModel commentModel,
   String userId,
 ) {
-  List<CommentReaction> comment_reactions =
+  List<CommentReaction> commentReactions =
       commentModel.comment_reactions ?? [];
-  CommentReaction commentReaction = comment_reactions.firstWhere(
+  CommentReaction commentReaction = commentReactions.firstWhere(
       (commentReaction) => commentReaction.user_id == userId,
       orElse: () => CommentReaction(v: -1));
 

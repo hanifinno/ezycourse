@@ -108,7 +108,7 @@ class SignupController extends GetxController {
     resendEnabled.value = false;
 
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 120), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 120), (timer) {
       if (remainingSeconds.value > 0) {
         remainingSeconds.value--;
       } else {

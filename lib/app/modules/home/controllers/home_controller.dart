@@ -301,11 +301,11 @@ class HomeController extends GetxController {
   }
 //============================= Hide Posts =========================================//
 
-  Future<void> hidePost(int status, String post_id, int postIndex) async {
+  Future<void> hidePost(int status, String postId, int postIndex) async {
     ApiResponse apiResponse = await _apiCommunication
         .doPostRequest(apiEndPoint: 'hide-unhide-post', requestData: {
       'status': status,
-      'post_id': post_id,
+      'post_id': postId,
     });
 
     if (apiResponse.isSuccessful) {
@@ -317,14 +317,14 @@ class HomeController extends GetxController {
 //============================= Bookmark Posts =========================================//
 
   Future<void> bookmarkPost(
-      String post_id, String postPrivacy, int index) async {
+      String postId, String postPrivacy, int index) async {
     ApiResponse apiResponse = await _apiCommunication
         .doPostRequest(apiEndPoint: 'save-post-bookmark', requestData: {
       'post_privacy': postPrivacy,
-      'post_id': post_id,
+      'post_id': postId,
     });
 
-    updatePostList(post_id, index);
+    updatePostList(postId, index);
     postList.refresh();
 
     if (apiResponse.isSuccessful) {
@@ -335,14 +335,14 @@ class HomeController extends GetxController {
 //============================= Remove Bookmarks Posts =========================================//
 
   Future<void> removeBookmarkPost(
-      String post_id, String bookMarkId, int index) async {
+      String postId, String bookMarkId, int index) async {
     ApiResponse apiResponse = await _apiCommunication.doDeleteRequest(
       apiEndPoint: 'remove-post-bookmark/$bookMarkId',
     );
 
     if (apiResponse.isSuccessful) {
       Get.back();
-      updatePostList(post_id, index);
+      updatePostList(postId, index);
       postList.refresh();
       showSuccessSnackkbar(message: 'remove bookmark');
     }
@@ -479,53 +479,53 @@ class HomeController extends GetxController {
 
   void commentReplyReaction(
     int postIndex,
-    String reaction_type,
-    String post_id,
-    String comment_id,
-    String comment_replies_id,
+    String reactionType,
+    String postId,
+    String commentId,
+    String commentRepliesId,
   ) async {
     ApiResponse apiResponse = await _apiCommunication.doPostRequest(
         apiEndPoint: 'save-comment-reaction-of-direct-post',
         requestData: {
-          'reaction_type': reaction_type,
+          'reaction_type': reactionType,
           'user_id': userModel.id,
-          'post_id': post_id,
-          'comment_id': comment_id,
-          'comment_replies_id': comment_replies_id,
+          'post_id': postId,
+          'comment_id': commentId,
+          'comment_replies_id': commentRepliesId,
         });
 
     if (apiResponse.isSuccessful) {
-      List<CommentModel> comments = await getSinglePostsComments(post_id);
+      List<CommentModel> comments = await getSinglePostsComments(postId);
       postList.value[postIndex].comments = comments;
       postList.refresh();
     }
   }
 
-  void commentDelete(String comment_id, String post_id, int postIndex) async {
+  void commentDelete(String commentId, String postId, int postIndex) async {
     ApiResponse apiResponse = await _apiCommunication.doPostRequest(
         apiEndPoint: 'delete-single-comment',
         requestData: {
-          'comment_id': comment_id,
-          'post_id': post_id,
+          'comment_id': commentId,
+          'post_id': postId,
           'type': 'main_comment'
         });
 
     if (apiResponse.isSuccessful) {
-      updatePostList(post_id, postIndex);
+      updatePostList(postId, postIndex);
     }
   }
 
-  void replyDelete(String reply_id, String post_id, int postIndex) async {
+  void replyDelete(String replyId, String postId, int postIndex) async {
     ApiResponse apiResponse = await _apiCommunication.doPostRequest(
         apiEndPoint: 'delete-single-comment',
         requestData: {
-          'comment_id': reply_id,
-          'post_id': post_id,
+          'comment_id': replyId,
+          'post_id': postId,
           'type': 'reply_comment'
         });
 
     if (apiResponse.isSuccessful) {
-      updatePostList(post_id, postIndex);
+      updatePostList(postId, postIndex);
     }
   }
 

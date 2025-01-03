@@ -37,7 +37,7 @@ class LoginController extends GetxController {
             response.data as Map<String, dynamic>;
         debugPrint(fullResponse.toString());
         _loginCredential.handleLoginCredential(fullResponse);
-        Get.offAllNamed(Routes.TAB);
+        Get.offAllNamed(Routes.HOME);
       } else {
         showErrorSnackkbar(message: response.message ?? 'Login error');
       }

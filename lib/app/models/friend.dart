@@ -47,7 +47,7 @@ class FriendModel {
 
   @override
   String toString() {
-    return '${fullName??''}';
+    return fullName??'';
   }
 
   @override

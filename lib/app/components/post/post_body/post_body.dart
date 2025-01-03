@@ -1,6 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as slider;
 import 'package:expandable_text/expandable_text.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../config/app_assets.dart';
@@ -1628,8 +1628,8 @@ class SharedPost extends StatelessWidget {
                                 )
                               : postModel.share_post_id?.adProduct?.media !=
                                       null
-                                  ? CarouselSlider(
-                                      options: CarouselOptions(
+                                  ? slider.CarouselSlider(
+                                      options: slider.CarouselOptions(
                                         aspectRatio: 6 / 3,
                                         autoPlay: true,
                                         viewportFraction: 0.8,
@@ -1668,8 +1668,8 @@ class SharedPost extends StatelessWidget {
                                           )
                                           .toList(),
                                     )
-                                  : CarouselSlider(
-                                      options: CarouselOptions(
+                                  : slider.CarouselSlider(
+                                      options: slider.CarouselOptions(
                                         aspectRatio: 6 / 3,
                                         autoPlay: true,
                                         viewportFraction: 0.8,
@@ -2153,8 +2153,8 @@ class CampaignPost extends StatelessWidget {
                     ),
                   )
                 : postModel.adProduct?.media != null
-                    ? CarouselSlider(
-                        options: CarouselOptions(
+                    ?slider. CarouselSlider(
+                        options:slider. CarouselOptions(
                           aspectRatio: 6 / 3,
                           autoPlay: true,
                           viewportFraction: 0.8,
@@ -2187,8 +2187,8 @@ class CampaignPost extends StatelessWidget {
                             )
                             .toList(),
                       )
-                    : CarouselSlider(
-                       options: CarouselOptions(
+                    :slider. CarouselSlider(
+                       options: slider. CarouselOptions(
                           aspectRatio: 6 / 3,
                           autoPlay: true,
                           viewportFraction: 1,

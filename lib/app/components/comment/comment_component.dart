@@ -233,7 +233,6 @@ class CommentComponent extends StatelessWidget {
                                 null;
                               }
 
-                              ;
                             } else {
                            if(isCommentValid.value){
                                onTapReplayComment(

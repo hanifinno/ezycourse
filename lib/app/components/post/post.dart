@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../routes/app_pages.dart';
-import 'post_header/share_reel_header.dart';
-import 'post_header/page_post_header.dart';
 
 import '../../models/post.dart';
-import 'post_header/group_post_header.dart';
 import 'post_body/post_body.dart';
 import 'post_footer/post_footer.dart';
 import 'post_header/post_header.dart';
-import 'post_header/shared_post_header.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard(

@@ -987,7 +987,7 @@ class GroupId {
         updateBy: updateBy ?? updateBy,
         updateDate: updateDate ?? updateDate,
         createdAt: createdAt ?? this.createdAt,
-        v: v ?? this.v,
+        v: v ?? v,
       );
 
   factory GroupId.fromJson(Map<String, dynamic> json) {

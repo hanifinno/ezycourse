@@ -10,13 +10,13 @@ class SplashController extends GetxController {
   LoginCredential loginCredential = LoginCredential();
   void navigate() async {
     Timer(const Duration(seconds: 3), () {
-      if (loginCredential.isUserLoggedIn()) {
-        Get.offNamed(Routes.TAB);
-        debugPrint('Splash Page');
-        debugPrint('User Data: \n${loginCredential.getUserData()}');
-      } else {
+      // if (loginCredential.isUserLoggedIn()) {
+      //   Get.offNamed(Routes.HOME);
+      //   debugPrint('Splash Page');
+      //   debugPrint('User Data: \n${loginCredential.getUserData()}');
+      // } else {
         Get.offNamed(Routes.LOGIN);
-      }
+      // }
     });
   }
 }

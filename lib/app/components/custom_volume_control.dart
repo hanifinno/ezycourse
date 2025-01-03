@@ -20,7 +20,7 @@ class VolumeControlOnly extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
                 icon: Icon(
-                  chewieController!.videoPlayerController.value.volume > 0
+                  chewieController.videoPlayerController.value.volume > 0
                       ? Icons.volume_up
                       : Icons.volume_off,
                   color: Colors.white,

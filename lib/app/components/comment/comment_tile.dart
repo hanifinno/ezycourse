@@ -483,8 +483,8 @@ class CommentTile extends StatelessWidget {
     return Image(height: 24, image: AssetImage(assetName));
   }
 
-  Widget ReactionIcons(String reaction_type) {
-    switch (reaction_type) {
+  Widget ReactionIcons(String reactionType) {
+    switch (reactionType) {
       case 'like':
         return const Image(
             height: 24, width: 24, image: AssetImage(AppAssets.LIKE_ICON));

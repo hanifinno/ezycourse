@@ -10,7 +10,6 @@ import '../../../models/user_id.dart';
 
 import '../../../modules/home/controllers/home_controller.dart';
 import '../../../routes/app_pages.dart';
-import '../../../utils/color.dart';
 import '../../../utils/image.dart';
 import '../../../utils/post_utlis.dart';
 import '../../image.dart';

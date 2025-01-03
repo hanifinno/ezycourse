@@ -7,12 +7,12 @@ class NotificationSeenModel {
   NotificationSeenModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     notification = json['notification'] != null
-        ? new Notification.fromJson(json['notification'])
+        ? Notification.fromJson(json['notification'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
     if (notification != null) {
       data['notification'] = notification!.toJson();
@@ -63,7 +63,7 @@ class Notification {
     sId = json['_id'];
     notificationType = json['notification_type'];
     notificationData = json['notification_data'] != null
-        ? new NotificationData.fromJson(json['notification_data'])
+        ? NotificationData.fromJson(json['notification_data'])
         : null;
     message = json['message'];
     resourceTitle = json['resource_title'];
@@ -82,7 +82,7 @@ class Notification {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['notification_type'] = notificationType;
     if (notificationData != null) {
@@ -123,7 +123,7 @@ class NotificationData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['post_id'] = postId;
     data['comment_id'] = commentId;
     data['comment_replies_id'] = commentRepliesId;
