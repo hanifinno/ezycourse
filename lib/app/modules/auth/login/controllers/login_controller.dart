@@ -9,7 +9,7 @@ import '../../../../services/api_communication.dart';
 import '../../../../utils/snackbar.dart';
 
 class LoginController extends GetxController {
-  late final TextEditingController userIdController;
+  late final TextEditingController emailController;
   late final TextEditingController passwordController;
   Rx<bool> obscureText = true.obs;
   final GlobalKey<FormState> loginFormKey = GlobalKey();
@@ -18,7 +18,7 @@ class LoginController extends GetxController {
   void onPressedLogin() async {
     debugPrint(
         '--Log in response starting point-----------------------------------');
-    String userId = userIdController.text;
+    String userId = emailController.text;
     String password = passwordController.text;
     if (loginFormKey.currentState!.validate()) {
       final ApiResponse response = await _apiCommunication.doPostRequest(
@@ -47,7 +47,7 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    userIdController = TextEditingController();
+    emailController = TextEditingController();
     passwordController = TextEditingController();
     _apiCommunication = ApiCommunication();
     _loginCredential = LoginCredential();
@@ -56,7 +56,7 @@ class LoginController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    userIdController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     _apiCommunication.endConnection();
   }

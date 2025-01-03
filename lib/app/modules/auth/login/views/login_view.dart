@@ -109,7 +109,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                               const SizedBox(height: 8),
                               CustomTextFormField(
-                                controller: controller.userIdController,
+                                controller: controller.emailController,
                                 hintText: 'johndoe@gmail.com',
                                 hintStyle:
                                     CustomTextStyles.interBlack(color: Colors.grey),

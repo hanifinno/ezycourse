@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ class SplashView extends GetView<SplashController> {
   Widget build(BuildContext context) {
     controller.navigate();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: PRIMARY_COLOR,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -19,7 +20,7 @@ class SplashView extends GetView<SplashController> {
               height: 60,
             ),
             Image.asset(
-              'assets/logo/user_app_logo.png',
+              'assets/logo/app_logo.png',
               height: 52,
               width: 57,
             ),
@@ -27,6 +28,7 @@ class SplashView extends GetView<SplashController> {
               'assets/other/loading.gif',
               height: 52,
               width: 70,
+              color: PRIMARY_COLOR,
             ),
           ],
         ), //Text('SplashView is working',style: TextStyle(fontSize: 20),),
