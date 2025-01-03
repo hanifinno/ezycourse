@@ -1,14 +1,13 @@
 // import 'dart:ffi';
 
 import 'dart:io';
+import 'package:ezycourse/app/components/comment/comment_model.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/comment_model.dart';
 import '../../models/post.dart';
-import '../../models/user.dart';
 import '../../modules/home/controllers/home_controller.dart';
 import '../../utils/color.dart';
 import '../image.dart';
@@ -43,7 +42,7 @@ class CommentComponent extends StatelessWidget {
   final Function(String reaction, String commentId) onSelectCommentReaction;
   final Function(CommentModel commentModel) onCommentEdit;
   final Function(CommentModel commentModel) onCommentDelete;
-  final Function(CommentReplay commentReplayModel) onCommentReplayEdit;
+  final Function(CommentModel commentReplayModel) onCommentReplayEdit;
 
   final Function(String replyId, String postId) onCommentReplayDelete;
 
@@ -99,13 +98,13 @@ class CommentComponent extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      (postModel.reactionCount ?? 0).toString(),
+                      (postModel.likeCount ?? 0).toString(),
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w400),
                     )
                   ],
                 ),
-                Text('${postModel.totalComments} Comments')
+                Text('${postModel.commentCount} Comments')
               ],
             ),
           ),
@@ -124,12 +123,12 @@ class CommentComponent extends StatelessWidget {
                     inputNodes: focusNode,
                     textEditingController: commentController,
                     onSelectCommentReaction: (reaction) {
-                      onSelectCommentReaction(reaction, commentModel.id ?? '');
+                      onSelectCommentReaction(reaction, commentModel.id.toString() ?? '');
                     },
                     onSelectCommentReplayReaction:
                         (reaction, commentRepliesId) {
                       onSelectCommentReplayReaction(
-                          reaction, commentModel.id ?? '', commentRepliesId);
+                          reaction, commentModel.id.toString() ?? '', commentRepliesId);
                     },
                     commentIndex: commentIndex,
                     onCommentDelete: onCommentDelete,
@@ -159,7 +158,7 @@ class CommentComponent extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: RoundCornerNetworkImage(
                     imageUrl:
-                        getFormatedProfileUrl(userModel.profile_pic ?? '')),
+                        (userModel.profilePic ?? '')),
               ),
               Container(
                 height: 40,
@@ -179,7 +178,7 @@ class CommentComponent extends StatelessWidget {
                         controller: commentController,
                         decoration: InputDecoration(
                           isCollapsed: true,
-                          hintText: 'Comment as ${userModel.first_name} ...',
+                          hintText: 'Comment as ${userModel.fullName} ...',
                           hintStyle: const TextStyle(fontSize: 15),
                           border: InputBorder.none,
                         ),
@@ -338,10 +337,10 @@ class CommentComponent extends StatelessWidget {
 
 Widget PostReactionIcons(PostModel postModel) {
   Set<Image> postReactionIcons = {};
-  if (postModel.reactionTypeCountsByPost != null) {
-    for (ReactionModel reactionModel in postModel.reactionTypeCountsByPost!) {
-      if (reactionModel.reaction_type == '') {}
-      switch (reactionModel.reaction_type) {
+  if (postModel.likeCount != null) {
+    for (LikeTypeModel reactionModel in postModel.likeType!) {
+      if (reactionModel.reactionType == '') {}
+      switch (reactionModel.reactionType?.toLowerCase()) {
         case 'like':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.LIKE_ICON)));

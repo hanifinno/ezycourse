@@ -1,15 +1,14 @@
+import 'package:ezycourse/app/components/comment/comment_model.dart';
+import 'package:ezycourse/app/models/post.dart';
+import 'package:ezycourse/app/utils/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/api_constant.dart';
 import '../../config/app_assets.dart';
-import '../../models/comment_model.dart';
-import '../../models/user.dart';
-import '../../models/user_id.dart';
 import '../../modules/home/controllers/home_controller.dart';
 import '../../routes/app_pages.dart';
-import '../../utils/comment.dart';
 import '../../utils/image.dart';
 import '../../utils/post_utlis.dart';
 import '../image.dart';
@@ -23,7 +22,7 @@ class CommentTile extends StatelessWidget {
   final Function(String reaction) onSelectCommentReaction;
   final Function(CommentModel commentModel) onCommentEdit;
   final Function(CommentModel commentModel) onCommentDelete;
-  final Function(CommentReplay commentReplayModel)? onCommentReplayEdit;
+  final Function(CommentModel commentReplayModel)? onCommentReplayEdit;
 
   final Function(String replyId, String postId) onCommentReplayDelete;
   final Function(
@@ -49,8 +48,8 @@ class CommentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserIdModel? commentedUserIdModel =
-        commentModel.user_id; // User who did this comment
+    UserModel? commentedUserIdModel =
+        commentModel.user; // User who did this comment
     UserModel currentUserModel = controller.userModel;
     return Container(
       padding: const EdgeInsets.only(top: 10),
@@ -63,9 +62,9 @@ class CommentTile extends StatelessWidget {
               //========================================Profile Picture
               const SizedBox(width: 10),
               RoundCornerNetworkImage(
-                imageUrl: getFormatedProfileUrl(
-                  commentedUserIdModel?.profile_pic ?? '',
-                ),
+                imageUrl: 
+                  commentedUserIdModel?.profilePic ?? '',
+                
               ),
               const SizedBox(width: 10),
               // ======================================== Comment with user Name + Action Section
@@ -83,65 +82,20 @@ class CommentTile extends StatelessWidget {
                           // ============= On click Name of commenter ===================
                           InkWell(
                             onTap: () {
-                              if (commentedUserIdModel?.username ==
-                                  currentUserModel.username) {
-                                Get.toNamed(Routes.PROFILE);
-                              } else {
-                                Get.toNamed(Routes.OTHERS_PROFILE,
-                                    arguments: {
-                                      'username': commentedUserIdModel?.username,
-                                      'isFromReels': 'false'
-                                    });
-                              }
+                         
                             },
                             child: Text(
-                              '${commentedUserIdModel?.first_name} ${commentedUserIdModel?.last_name}',
+                              '${commentedUserIdModel?.fullName}',
                               style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                           ),
                           const SizedBox(height: 4),
                           //================================= Text Comment=========================//
-                          (commentModel.comment_name?.isNotEmpty ?? false)
-                              ? LinkText(text: commentModel.comment_name!)
+                          (commentModel.commentText?.isNotEmpty ?? false)
+                              ? Text(commentModel.commentText!)
                               : const SizedBox(),
-                          //================================ Link Image============================//
-                          (commentModel.link_image?.isNotEmpty ?? false)
-                              ? InkWell(
-                                  onTap: () async {
-                                    await launchUrl(
-                                        Uri.parse(commentModel.link ?? ''),
-                                        mode: LaunchMode.externalApplication);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: PrimaryNetworkImage(
-                                        imageUrl: commentModel.link_image!),
-                                  ),
-                                )
-                              : const SizedBox(),
-                          //================================= Image Comment=========================//
-                          commentModel.image_or_video != null
-                              ? Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: FadeInImage(
-                                      height: 100,
-                                      width: 100,
-                                      // here `bytes` is a Uint8List containing the bytes for the in-memory image
-                                      placeholder: const AssetImage(
-                                          'assets/image/default_image.png'),
-                                      image: NetworkImage(
-                                          '${ApiConstant.SERVER_IP_PORT}/${commentModel.image_or_video}'),
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox(
-                                  height: 0,
-                                  width: 0,
-                                ),
+                        
                         ],
                       ),
                     ),
@@ -160,7 +114,7 @@ class CommentTile extends StatelessWidget {
                           // ======================================== Do Comment Reaction ==================================
                           CommentReactionButton(
                             selectedReaction: getSelectedCommentReaction(
-                                commentModel, currentUserModel.id ?? ''),
+                                commentModel, currentUserModel.id.toString()),
                             onChangedReaction: (reaction) {
                               onSelectCommentReaction(reaction.value);
                             },
@@ -172,7 +126,7 @@ class CommentTile extends StatelessWidget {
                               controller.commentsID.value =
                                   '${commentModel.id}';
                               controller.postID.value =
-                                  '${commentModel.post_id}';
+                                  '${commentModel.userId}';
 
                               FocusScope.of(context).requestFocus(inputNodes);
 
@@ -197,8 +151,9 @@ class CommentTile extends StatelessWidget {
               ),
               //======================================== More Action Icon
 
-              currentUserModel.id == commentModel.user_id?.id
-                  ? PopupMenuButton(
+              currentUserModel.id == commentModel.userId
+                  ? 
+                  PopupMenuButton(
                       color: Colors.white,
                       offset: const Offset(-50, 00),
                       iconColor: Colors.grey,
@@ -210,8 +165,7 @@ class CommentTile extends StatelessWidget {
                         List<PopupMenuEntry<int>> menuItems = [];
                         //====================================================== Edit Comment =======================================//
 
-                        if (commentModel.image_or_video == null ||
-                            commentModel.comment_name != '') {
+                     
                           menuItems.add(
                             PopupMenuItem(
                               onTap: () {
@@ -224,7 +178,7 @@ class CommentTile extends StatelessWidget {
                               ),
                             ),
                           );
-                        }
+                        
 
                         //====================================================== Delete Comment =======================================//
 
@@ -260,7 +214,7 @@ class CommentTile extends StatelessWidget {
                 physics: const ScrollPhysics(),
                 itemCount: commentModel.replies?.length ?? 0,
                 itemBuilder: (context, index) {
-                  CommentReplay? commentReplay = commentModel.replies?[index];
+                  CommentModel? commentReplay = commentModel.replies?[index];
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -268,8 +222,8 @@ class CommentTile extends StatelessWidget {
                       //============================================== Comment Replay User Image
                       RoundCornerNetworkImage(
                         imageUrl: getFormatedProfileUrl(
-                          commentModel.replies?[index].replies_user_id
-                                  ?.profile_pic ??
+                          commentModel.replies?[index].user
+                                  ?.profilePic ??
                               '',
                         ),
                       ),
@@ -295,7 +249,7 @@ class CommentTile extends StatelessWidget {
                                       children: [
                                         //============================================== Comment Replay User Name
                                         Text(
-                                          '${commentModel.replies?[index].replies_user_id?.first_name} ${commentModel.replies![index].replies_user_id?.last_name}',
+                                          '${commentModel.replies?[index].user?.fullName} ',
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                               fontSize: 14,
@@ -305,39 +259,11 @@ class CommentTile extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  (commentModel
-                                              .replies?[index]
-                                              .replies_comment_name
-                                              ?.isNotEmpty ??
-                                          false)
-                                      ? LinkText(
-                                          text:
-                                              '${commentModel.replies![index].replies_comment_name}')
-                                      : const SizedBox(height: 5),
+                                 
 
                                   //================================ Link Image============================//
-                                  (commentModel.replies![index].link_image
-                                              ?.isNotEmpty ??
-                                          false)
-                                      ? InkWell(
-                                          onTap: () async {
-                                            await launchUrl(
-                                                Uri.parse(commentModel
-                                                        .replies![index].link ??
-                                                    ''),
-                                                mode: LaunchMode
-                                                    .externalApplication);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: PrimaryNetworkImage(
-                                                imageUrl: commentModel
-                                                    .replies![index]
-                                                    .link_image!),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  commentModel.replies?[index].image_or_video !=
+                       
+                                  commentModel.replies?[index].commentText !=
                                           null
                                       ? ClipRRect(
                                           borderRadius:
@@ -347,7 +273,7 @@ class CommentTile extends StatelessWidget {
                                               AppAssets.DEFAULT_IMAGE,
                                             ),
                                             image: NetworkImage(
-                                                '${ApiConstant.SERVER_IP_PORT}/${commentModel.replies?[index].image_or_video}'),
+                                                '${ApiConstant.SERVER_IP_PORT}/${commentModel.replies?[index].commentText}'),
                                           ),
                                         )
                                       : const SizedBox(
@@ -373,7 +299,7 @@ class CommentTile extends StatelessWidget {
                                     selectedReaction:
                                         getSelectedCommentReplayReaction(
                                             commentModel.replies![index],
-                                            currentUserModel.id ?? ''),
+                                            currentUserModel.id.toString() ?? ''),
                                     onChangedReaction: (reaction) {
                                       onSelectCommentReplayReaction(
                                           reaction.value,
@@ -387,7 +313,7 @@ class CommentTile extends StatelessWidget {
                                       controller.commentsID.value =
                                           '${commentModel.id}';
                                       controller.postID.value =
-                                          '${commentModel.post_id}';
+                                          '${commentModel.feedId}';
 
                                       FocusScope.of(context)
                                           .requestFocus(inputNodes);
@@ -404,7 +330,7 @@ class CommentTile extends StatelessWidget {
                                               commentModel.replies?[index]);
                                     },
                                     child: ReplayReactionIcons(
-                                        commentReplay ?? CommentReplay()),
+                                        commentReplay ?? CommentModel()),
                                   )
                                 ],
                               ),
@@ -413,7 +339,7 @@ class CommentTile extends StatelessWidget {
                         ),
                       ),
                       currentUserModel.id ==
-                              commentModel.replies?[index].replies_user_id?.id
+                              commentModel.replies?[index].user?.id
                           ? PopupMenuButton(
                               color: Colors.white,
                               offset: const Offset(140, 40),
@@ -426,13 +352,13 @@ class CommentTile extends StatelessWidget {
                                 List<PopupMenuEntry<int>> items = [];
                                 //       //====================================================== Edit Reply Comment =======================================//
 
-                                if (commentReplay?.image_or_video == null ||
-                                    commentReplay?.replies_comment_name != '') {
+                                // if (commentReplay?.image_or_video == null ||
+                                //     commentReplay?.replies_comment_name != '') {
                                   items.add(
                                     PopupMenuItem(
                                       onTap: () {
                                         onCommentReplayEdit!(
-                                          commentReplay ?? CommentReplay(),
+                                          commentReplay ?? CommentModel(),
                                         );
                                       },
                                       value: 1,
@@ -442,7 +368,7 @@ class CommentTile extends StatelessWidget {
                                       ),
                                     ),
                                   );
-                                }
+                                // }
 
                                 //       //====================================================== Delete Reply Comment =======================================//
 
@@ -451,7 +377,7 @@ class CommentTile extends StatelessWidget {
                                     onTap: () {
                                       onCommentReplayDelete(
                                           '${commentModel.replies?[index].id}',
-                                          '${commentModel.replies?[index].post_id}');
+                                          '${commentModel.replies?[index].feedId}');
                                     },
                                     value: 2,
                                     child: const Text(

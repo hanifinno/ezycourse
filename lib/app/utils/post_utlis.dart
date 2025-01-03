@@ -166,46 +166,46 @@ class LinkText extends StatelessWidget {
   }
 }
 
-Reaction<String>? getSelectedReaction(PostModel postModel) {
-  LoginCredential credential = LoginCredential();
-  UserModel userModel = credential.getUserData();
+// Reaction<String>? getSelectedReaction(PostModel postModel) {
+//   LoginCredential credential = LoginCredential();
+//   UserModel userModel = credential.getUserData();
   
-  if (postModel.reactionTypeCountsByPost != null) {
-    for (ReactionModel reactionModel in postModel.reactionTypeCountsByPost!) {
-      if (reactionModel.user_id == userModel.id) {
-        return Reaction<String>(
-          value: reactionModel.reaction_type,
-          icon: Row(
-            children: [
-              ReactionIcon(
-                  getReactionIconPath(reactionModel.reaction_type ?? '')),
-              const SizedBox(width: 10),
-              Text(reactionModel.reaction_type?.capitalizeFirst ?? '',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey.shade700,
-                  ))
-            ],
-          ),
-        );
-      }
-    }
-  }
-  return Reaction<String>(
-    value: 'like',
-    icon: Row(
-      children: [
-        ReactionIcon(AppAssets.LIKE_ACTION_ICON),
-        const SizedBox(width: 10),
-        Text('Like',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey.shade700,
-            ))
-      ],
-    ),
-  );
-}
+//   if (postModel.reactionTypeCountsByPost != null) {
+//     for (ReactionModel reactionModel in postModel.reactionTypeCountsByPost!) {
+//       if (reactionModel.user_id == userModel.id) {
+//         return Reaction<String>(
+//           value: reactionModel.reaction_type,
+//           icon: Row(
+//             children: [
+//               ReactionIcon(
+//                   getReactionIconPath(reactionModel.reaction_type ?? '')),
+//               const SizedBox(width: 10),
+//               Text(reactionModel.reaction_type?.capitalizeFirst ?? '',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     color: Colors.grey.shade700,
+//                   ))
+//             ],
+//           ),
+//         );
+//       }
+//     }
+//   }
+//   return Reaction<String>(
+//     value: 'like',
+//     icon: Row(
+//       children: [
+//         ReactionIcon(AppAssets.LIKE_ACTION_ICON),
+//         const SizedBox(width: 10),
+//         Text('Like',
+//             style: TextStyle(
+//               fontSize: 18,
+//               color: Colors.grey.shade700,
+//             ))
+//       ],
+//     ),
+//   );
+// }
 
 Widget ReactionIcon(String assetName, {double? height = 32}) {
   return Image(height: height ?? 32, image: AssetImage(assetName));

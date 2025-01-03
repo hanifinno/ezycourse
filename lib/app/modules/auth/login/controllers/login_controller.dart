@@ -18,17 +18,19 @@ class LoginController extends GetxController {
   void onPressedLogin() async {
     debugPrint(
         '--Log in response starting point-----------------------------------');
-    String userId = emailController.text;
+    String email = emailController.text;
     String password = passwordController.text;
     if (loginFormKey.currentState!.validate()) {
       final ApiResponse response = await _apiCommunication.doPostRequest(
+        
         enableLoading: true,
-        apiEndPoint: 'user-login',
+        apiEndPoint: 'app/student/auth/login',
         requestData: {
-          'email': userId,
+          'email': email,
           'password': password,
+          'app_token':''
         },
-        isFormData: false,
+        isFormData: true,
         responseDataKey: ApiConstant.FULL_RESPONSE,
       );
       if (response.isSuccessful && response.statusCode == 200) {

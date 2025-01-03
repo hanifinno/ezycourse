@@ -181,11 +181,11 @@ class PostReactionButton extends StatelessWidget {
 
 ReactionModel? getSelectedPostReaction(
     post.PostModel postModel, String userId) {
-  for (post.ReactionModel reactionModel
-      in postModel.reactionTypeCountsByPost ?? []) {
-    if (reactionModel.user_id == userId) {
-      return getReactionModelAsType(reactionModel.reaction_type ?? '');
-    }
+  for (post.LikeTypeModel reactionModel
+      in postModel.likeType ?? []) {
+    // if (reactionModel.user_id == userId) {
+      return getReactionModelAsType(reactionModel.reactionType ?? '');
+    // }
   }
 
   return null;

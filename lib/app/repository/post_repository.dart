@@ -8,23 +8,22 @@ import '../services/api_communication.dart';
 class PostRepository {
   final ApiCommunication _apiCommunication = ApiCommunication();
 
-  Future<ApiResponse> getPosts({
+  Future<ApiResponse> fetchCommunityPosts({
     required int pageNo,
     required int pageSize,
   }) async {
     List<PostModel> postList = [];
-    final apiResponse = await _apiCommunication.doGetRequest(
+    final apiResponse = await _apiCommunication.doPostRequest(
       responseDataKey: ApiConstant.FULL_RESPONSE,
-      apiEndPoint: 'get-all-users-posts?pageNo=$pageNo&pageSize=$pageSize',
+      apiEndPoint: 'app/teacher/community/getFeed?status=feed&',
     );
 
     if (apiResponse.isSuccessful) {
-      int pageCount = (apiResponse.data as Map<String, dynamic>)['pageCount'];
-      postList = (((apiResponse.data as Map<String, dynamic>)['posts']) as List)
+      postList = (((apiResponse.data as Map<String, dynamic>)) as List)
           .map((element) => PostModel.fromMap(element))
           .toList();
       ApiResponse apiResponseToPass =
-          apiResponse.copyWith(pageCount: pageCount, data: postList);
+          apiResponse.copyWith( data: postList);
       return apiResponseToPass;
     } else {
       return apiResponse;
@@ -134,25 +133,5 @@ class PostRepository {
       return apiResponse;
     }
   }
-  Future<ApiResponse> getVideoAds() async {
-    List<VideoCampaignModel> videoAdsList = [];
-    final apiResponse = await _apiCommunication.doGetRequest(
-      responseDataKey: ApiConstant.FULL_RESPONSE,
-      apiEndPoint: 'campaign/get-video-ads',
-      // requestData: {
-      //   'group_id': groupId,
-      // }
-    );
 
-    if (apiResponse.isSuccessful) {
-      // int? pageCount = (apiResponse.data as Map<String, dynamic>)['pageCount'];
-      videoAdsList = (((apiResponse.data as Map<String, dynamic>)['results']) as List)
-          .map((element) => VideoCampaignModel.fromJson(element))
-          .toList();
-      ApiResponse apiResponseToPass = apiResponse.copyWith(data: videoAdsList);
-      return apiResponseToPass;
-    } else {
-      return apiResponse;
-    }
-  }
 }

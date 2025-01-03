@@ -1,5 +1,6 @@
+import 'package:ezycourse/app/components/comment/comment_model.dart';
+import 'package:ezycourse/app/components/reaction_button/comment_reaction_model.dart';
 import 'package:flutter/material.dart';
-import '../../models/comment_model.dart';
 import 'package:reaction_button/reaction_button.dart';
 
 import '../../config/app_assets.dart';
@@ -176,11 +177,11 @@ ReactionModel? getSelectedCommentReaction(
   CommentModel commentModel,
   String userId,
 ) {
-  List<CommentReaction> commentReactions =
-      commentModel.comment_reactions ?? [];
-  CommentReaction commentReaction = commentReactions.firstWhere(
+  List<CommentReactionModel> commentReactions =
+      commentModel.reactionTypes?? [];
+  CommentReactionModel commentReaction = commentReactions.firstWhere(
       (commentReaction) => commentReaction.user_id == userId,
-      orElse: () => CommentReaction(v: -1));
+      orElse: () => CommentReactionModel(v: -1));
 
   if ((commentReaction.v ?? 0) != -1) {
     return getReactionModelAsType(commentReaction.reaction_type ?? '');
@@ -190,15 +191,15 @@ ReactionModel? getSelectedCommentReaction(
 }
 
 ReactionModel? getSelectedCommentReplayReaction(
-  CommentReplay commentReplay,
+  CommentModel commentReplay,
   String userId,
 ) {
-  List<RepliesCommentReaction> commentReplayReactions =
-      commentReplay.replies_comment_reactions ?? [];
-  RepliesCommentReaction commentReplayReaction =
+  List<CommentReactionModel> commentReplayReactions =
+      commentReplay.reactionTypes ?? [];
+  CommentReactionModel commentReplayReaction =
       commentReplayReactions.firstWhere(
           (commentReplayReaction) => commentReplayReaction.user_id == userId,
-          orElse: () => RepliesCommentReaction(v: -1));
+          orElse: () => CommentReactionModel(v: -1));
 
   if ((commentReplayReaction.v ?? 0) != -1) {
     return getReactionModelAsType(commentReplayReaction.reaction_type ?? '');

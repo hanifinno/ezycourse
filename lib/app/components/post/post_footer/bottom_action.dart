@@ -31,7 +31,7 @@ class BottomAction extends StatelessWidget {
             children: [
               PostReactionButton(
                 selectedReaction: getSelectedPostReaction(
-                    model, loginCredential.getUserData().id ?? ''),
+                    model, loginCredential.getUserData().id.toString()?? ''),
                 onChangedReaction: (reaction) {
                   onSelectReaction(reaction.value);
                 },
@@ -48,8 +48,7 @@ class BottomAction extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              (model.post_privacy == 'friends' &&
-                      (loginCredential.getUserData().id != model.user_id?.id))
+              (model.feedPrivacy == 'Public' )
                   ? PostActionButton(
                       assetName: AppAssets.COPY_ACTION_ICON,
                       text: 'Copy Link',

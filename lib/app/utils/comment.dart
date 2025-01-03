@@ -1,13 +1,14 @@
+import 'package:ezycourse/app/components/comment/comment_model.dart';
+import 'package:ezycourse/app/components/reaction_button/comment_reaction_model.dart';
 import 'package:flutter/material.dart';
 import '../config/app_assets.dart';
-import '../models/comment_model.dart';
 
 Widget CommentReactionIcons(CommentModel commentModel) {
     Set<Image> postReactionIcons = {};
-    if (commentModel.comment_reactions != null) {
-      for (CommentReaction commentReaction in commentModel.comment_reactions!) {
+    if (commentModel.reactionTypes != null) {
+      for (CommentReactionModel commentReaction in commentModel.reactionTypes!) {
         if (commentReaction.reaction_type == '') {}
-        switch (commentReaction.reaction_type) {
+        switch (commentReaction.reaction_type?.toLowerCase()) {
           case 'like':
             postReactionIcons.add(const Image(
                 height: 24, width: 24, image: AssetImage(AppAssets.LIKE_ICON)));
@@ -61,13 +62,13 @@ Widget CommentReactionIcons(CommentModel commentModel) {
     }
   }
 
-Widget ReplayReactionIcons(CommentReplay commentReplay) {
+Widget ReplayReactionIcons(CommentModel commentReplay) {
     List<Image> postReactionIcons = [];
-    if (commentReplay.replies_comment_reactions != null) {
-      for (RepliesCommentReaction repliesCommentReaction
-          in commentReplay.replies_comment_reactions!) {
+    if (commentReplay.reactionTypes != null) {
+      for (CommentReactionModel repliesCommentReaction
+          in commentReplay.reactionTypes!) {
         if (repliesCommentReaction.reaction_type == '') {}
-        switch (repliesCommentReaction.reaction_type) {
+        switch (repliesCommentReaction.reaction_type?.toLowerCase()) {
           case 'like':
             postReactionIcons.add(const Image(
                 height: 24, width: 24, image: AssetImage(AppAssets.LIKE_ICON)));

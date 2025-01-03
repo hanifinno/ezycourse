@@ -1,9 +1,9 @@
 
+import 'package:ezycourse/app/models/post.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../config/app_storage.dart';
-import '../models/user.dart';
 import '../routes/app_pages.dart';
 
 class LoginCredential {
@@ -23,12 +23,12 @@ class LoginCredential {
 
 //================================================================ User Data ================================================================//
   void saveUserData(UserModel model) {
-    _getStorage.write(AppStorage.USER_DATA_KEY, model.toJson());
+    _getStorage.write(AppStorage.USER_DATA_KEY, model.toMap());
   }
 
   UserModel getUserData() {
     UserModel model =
-        UserModel.fromJson(_getStorage.read(AppStorage.USER_DATA_KEY));
+        UserModel.fromMap(_getStorage.read(AppStorage.USER_DATA_KEY));
     return model;
   }
 

@@ -11,7 +11,6 @@ import '../../../models/MediaTypeModel.dart';
 import '../../../models/api_response.dart';
 import '../../../models/comment_model.dart';
 import '../../../models/post.dart';
-import '../../../models/user.dart';
 import '../../../models/video_campaign_model.dart';
 import '../../../repository/post_repository.dart';
 import '../../../routes/app_pages.dart';
@@ -32,8 +31,7 @@ class HomeController extends GetxController {
   RxBool isCommentReactionLoading = true.obs;
   RxBool isReplyReactionLoading = true.obs;
   RxInt storyCaroselInitialIndex = 0.obs;
-    var currentAdIndex = 0.obs;
-
+  var currentAdIndex = 0.obs;
 
   RxString dropdownValue = privacyList.first.obs;
   RxString postPrivacy = 'public'.obs;
@@ -47,7 +45,6 @@ class HomeController extends GetxController {
   RxBool isLoadingUserPages = true.obs;
   RxBool isLoadingStory = true.obs;
   Rx<List<PostModel>> postList = Rx([]);
-
 
   late ScrollController postScrollController;
 
@@ -64,7 +61,7 @@ class HomeController extends GetxController {
 //pepople you may know
   RxList<int> randomIndices = <int>[].obs;
   RandomIndexGenerator randomNumberGenertor = RandomIndexGenerator();
-    RxString selectedReportId = ''.obs;
+  RxString selectedReportId = ''.obs;
   RxString selectedReportType = ''.obs;
   late TextEditingController reportDescription;
 
@@ -92,10 +89,6 @@ class HomeController extends GetxController {
     onTapCreatePost();
   }
 
-
-
-  
-
   //======================================================== Post Related Functions ===============================================//
   void onTapCreatePost() async {
     await Get.toNamed(Routes.CREAT_POST, arguments: {
@@ -106,24 +99,22 @@ class HomeController extends GetxController {
     pageNo = 1;
     totalPageCount = 0;
     postList.value.clear();
-    getPosts();
+    fetchCommunityPosts();
     isLoadingNewsFeed.value = false;
   }
 
   void onTapEditPost(PostModel model) async {
     await Get.toNamed(Routes.EDIT_POST, arguments: model);
     postList.value.clear();
-    getPosts();
+    fetchCommunityPosts();
   }
 //============================= Get Posts =========================================//
 
-  Future<void> getPosts() async {
+  Future<void> fetchCommunityPosts() async {
     isLoadingNewsFeed.value = true;
 
-    final ApiResponse apiResponse = await postRepository.getPosts(
-      pageNo: pageNo,
-      pageSize: pageSize,
-    );
+    final ApiResponse apiResponse = await postRepository.fetchCommunityPosts(
+        pageNo: pageNo, pageSize: pageSize);
     isLoadingNewsFeed.value = false;
 
     if (apiResponse.isSuccessful) {
@@ -131,22 +122,10 @@ class HomeController extends GetxController {
 
       List<PostModel> fetchedPosts = apiResponse.data as List<PostModel>;
 
-      List<PostModel> mergedPosts = [];
-      int adIndex = 0;
-      for (int i = 0; i < fetchedPosts.length; i++) {
-        mergedPosts.add(fetchedPosts[i]);
-
-        if ((i + 1) % 5 == 0 && adIndex < adsPostList.value.length) {
-          mergedPosts.add(adsPostList.value[adIndex]);
-          adIndex++;
-        }
-      }
-
-      postList.value.addAll(mergedPosts);
+      postList.value.addAll(fetchedPosts);
 
       // Refresh the postList
       postList.refresh();
-      generateRandomIndicesForPosts();
     } else {
       // Handle error response
     }
@@ -173,32 +152,10 @@ class HomeController extends GetxController {
   }
 //============================= Get Video Ads =========================================//
 
-  Rx<List<VideoCampaignModel>> videoAdList =
-      Rx([]); // Store ads posts separately
-
-  Future<void> getVideoAds() async {
-    isLoadingNewsFeed.value = true;
-
-    final ApiResponse apiResponse = await postRepository.getVideoAds();
-    isLoadingNewsFeed.value = false;
-    if (apiResponse.isSuccessful) {
-      videoAdList.value = apiResponse.data
-          as List<VideoCampaignModel>; // Store the ads separately
-      // adsPostList.refresh(); // Refresh the ads list
-      debugPrint('');
-    } else {
-      debugPrint('Unknown error in Video Ad');
-    }
-  }
-
-// Video ad Index Dynamic 
 
 
-  void updateAdIndex() {
-    if (videoAdList.value.isNotEmpty) {
-      currentAdIndex.value = (currentAdIndex.value + 1) % videoAdList.value.length;
-    }
-  }
+// Video ad Index Dynamic
+
   // Future<void> getAdsPagePosts() async {
   //   isLoadingNewsFeed.value = true;
 
@@ -239,7 +196,7 @@ class HomeController extends GetxController {
       // updateReactionLocally(
       //     index: index, postId: postModel.id ?? '', reaction: reaction);
       debugPrint(apiResponse.message);
-      updatePostList(postModel.id ?? '', index);
+      // updatePostList(postModel.id ?? '', index);
     } else {
       debugPrint(apiResponse.message);
     }
@@ -396,7 +353,7 @@ class HomeController extends GetxController {
           isFormData: true,
           enableLoading: true,
           requestData: {
-            'user_id': postModel.user_id?.id,
+            // 'user_id': postModel.user_id?.id,
             'post_id': postModel.id,
             'comment_name': commentController.text,
             'link': null,
@@ -410,7 +367,7 @@ class HomeController extends GetxController {
 
       if (apiResponse.isSuccessful) {
         if (postList.value[index].comments != null) {
-          updatePostList(postModel.id ?? '', index);
+          // updatePostList(postModel.id ?? '', index);
           commentController.clear();
           debugPrint('Hello');
           xfiles.value.clear();
@@ -472,7 +429,7 @@ class HomeController extends GetxController {
 
     if (apiResponse.isSuccessful) {
       List<CommentModel> comments = await getSinglePostsComments(post_id);
-      postList.value[postIndex].comments = comments;
+      // postList.value[postIndex].comments = comments;
       postList.refresh();
     }
   }
@@ -496,7 +453,7 @@ class HomeController extends GetxController {
 
     if (apiResponse.isSuccessful) {
       List<CommentModel> comments = await getSinglePostsComments(postId);
-      postList.value[postIndex].comments = comments;
+      // postList.value[postIndex].comments = comments;
       postList.refresh();
     }
   }
@@ -570,10 +527,6 @@ class HomeController extends GetxController {
 
   //======================================================== Story Related Functions ===============================================//
 
-  
-
- 
-
   //=========================================== For Scrolling List View
 
   Future<void> _scrollListener() async {
@@ -581,11 +534,10 @@ class HomeController extends GetxController {
         postScrollController.position.maxScrollExtent) {
       if (pageNo != totalPageCount) {
         pageNo += 1;
-        await getPosts();
+        await fetchCommunityPosts();
       }
     }
   }
-
 
   /////////////////////////////////////////////////////////////////////
 
@@ -606,7 +558,7 @@ class HomeController extends GetxController {
       pageNo = 1;
       totalPageCount = 0;
       postList.value.clear();
-      getPosts();
+      fetchCommunityPosts();
     } else {}
   }
 
@@ -639,12 +591,10 @@ class HomeController extends GetxController {
     commentReplyController = TextEditingController();
     descriptionController = TextEditingController();
     reportDescription = TextEditingController();
-    await getVideoAds();
-    await getPosts();
+    await fetchCommunityPosts();
 
     await getAdsPagePosts();
     generateRandomIndicesForPosts();
-
 
     super.onInit();
   }

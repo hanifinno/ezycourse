@@ -1,16 +1,6 @@
 import 'package:get/get.dart';
-
 import '../modules/auth/login/bindings/login_binding.dart';
 import '../modules/auth/login/views/login_view.dart';
-import '../modules/auth/signup/bindings/signup_binding.dart';
-import '../modules/auth/signup/views/birthday_view.dart';
-import '../modules/auth/signup/views/email_view.dart';
-import '../modules/auth/signup/views/gender_view.dart';
-import '../modules/auth/signup/views/name_view.dart';
-import '../modules/auth/signup/views/number_view.dart';
-import '../modules/auth/signup/views/otp_verification.dart';
-import '../modules/auth/signup/views/password_view.dart';
-import '../modules/auth/signup/views/signup_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -40,46 +30,46 @@ class AppPages {
       page: () => const LoginView(),
       binding: LoginBinding(),
     ),
-    GetPage(
-      name: _Paths.SIGNUP,
-      page: () => const SignupView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.NAME,
-      page: () => const NameView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.OTP,
-      page: () => const OtpView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.BIRTHDAY,
-      page: () => const BirthdayView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.GENDER,
-      page: () => const GenderView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.EMAIL,
-      page: () => const EmailView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.NUMBER,
-      page: () => const NumberView(),
-      binding: SignupBinding(),
-    ),
-    GetPage(
-      name: _Paths.PASSWORD,
-      page: () => const PasswordView(),
-      binding: SignupBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.SIGNUP,
+    //   page: () => const SignupView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.NAME,
+    //   page: () => const NameView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.OTP,
+    //   page: () => const OtpView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.BIRTHDAY,
+    //   page: () => const BirthdayView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.GENDER,
+    //   page: () => const GenderView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.EMAIL,
+    //   page: () => const EmailView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.NUMBER,
+    //   page: () => const NumberView(),
+    //   binding: SignupBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.PASSWORD,
+    //   page: () => const PasswordView(),
+    //   binding: SignupBinding(),
+    // ),
 
 
     // GetPage(

@@ -30,15 +30,15 @@ class PostFooter extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  (model.reactionCount ?? 0) > 0
-                      ? Text(' ${model.reactionCount}')
+                  (model.likeType?.length ?? 0) > 0
+                      ? Text(' ${model.likeCount}')
                       : const Text(' No reaction'),
                 ],
               ),
             ),
             InkWell(
                 onTap: onPressedComment,
-                child: Text('${model.totalComments} Comments ')),
+                child: Text('${model.commentCount} Comments ')),
           ],
         ),
         const Divider(),
@@ -61,35 +61,35 @@ class PostFooter extends StatelessWidget {
 
 Widget PostReactionIcons(PostModel postModel) {
   Set<Image> postReactionIcons = {};
-  if (postModel.reactionTypeCountsByPost != null) {
-    for (ReactionModel reactionModel in postModel.reactionTypeCountsByPost!) {
-      if (reactionModel.reaction_type == '') {}
-      switch (reactionModel.reaction_type) {
-        case 'like':
+  if (postModel.likeCount != null) {
+    for (LikeTypeModel reactionModel in postModel.likeType!) {
+      if (reactionModel.reactionType == '') {}
+      switch (reactionModel.reactionType) {
+        case 'LIKE':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.LIKE_ICON)));
           break;
-        case 'love':
+        case 'LOVE':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.LOVE_ICON)));
           break;
-        case 'haha':
+        case 'HAHA':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.HAHA_ICON)));
           break;
-        case 'wow':
+        case 'WOW':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.WOW_ICON)));
           break;
-        case 'sad':
+        case 'SAD':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.SAD_ICON)));
           break;
-        case 'angry':
+        case 'ANGRY':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.ANGRY_ICON)));
           break;
-        case 'unlike':
+        case 'UNLIKE':
           postReactionIcons.add(const Image(
               height: 24, width: 24, image: AssetImage(AppAssets.UNLIKE_ICON)));
           break;
