@@ -1,8 +1,11 @@
+import 'package:ezycourse/app/modules/home/controllers/home_controller.dart';
+import 'package:ezycourse/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LogoutDialog {
   static void showLogoutDialog() {
+    HomeController controller = Get.find();
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -17,7 +20,7 @@ class LogoutDialog {
               const Text(
                 'Logout',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                 ),
@@ -25,53 +28,60 @@ class LogoutDialog {
               const SizedBox(height: 16),
 
               // Subtitle
-              const Text(
-                'Are you sure, you want to log out?',
+              RichText(
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
+                text: const TextSpan(
+                  text: 'Are you sure, you want to log\n ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black54,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'out?',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 24),
 
-              // Buttons Row
+              const SizedBox(height: 24),
+              const Divider(
+                indent: 1,
+                endIndent: 1,
+              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Yes Button
                   GestureDetector(
                     onTap: () {
-                      Get.back(); // Close the dialog
-                      // Add logout logic here
-                      print('Logged out');
+                      controller.logout();
                     },
                     child: const Text(
                       'Yes',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: PURPLE),
                     ),
                   ),
-
-                  // Divider
                   Container(
                     width: 1,
-                    height: 20,
-                    color: Colors.grey.shade300,
+                    height: 50,
+                    color: Colors.grey,
                   ),
-
-                  // No Button
                   GestureDetector(
                     onTap: () {
-                      Get.back(); // Close the dialog
+                      Get.back();
                     },
                     child: const Text(
                       'No',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
                       ),

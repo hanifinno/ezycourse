@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color PRIMARY_COLOR = Color(0xff023d45);
 const Color PRIMARY_COLOR_3 = Color(0xff115c67);
 const Color PRIMARY_COLOR_2 = Color(0xff307777);
+const Color PURPLE = Color(0xff5D5BE9);
 const Color BORDER_COLOR = Color(0x29d0d5dd);
 const Color PRIMARY_LIGHT_COLOR = Color(0xffE9F0F0);
 const Color PRIMARY_L_COLOR = Color(0xffDFFCFC);

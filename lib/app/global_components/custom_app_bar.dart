@@ -15,13 +15,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Image.asset(AppAssets.MENU),
-      // IconButton(
-      //   icon: const Icon(Icons.menu),
-      //   onPressed: () {
-      //     Scaffold.of(context).openDrawer(); 
-      //   },
-      // ),
+      leading: Image.asset(AppAssets.MENU, height: 20,width: 20,),
+
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
