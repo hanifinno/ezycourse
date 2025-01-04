@@ -40,10 +40,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       backgroundColor: PRIMARY_COLOR, 
-      elevation: 4.0, 
+      elevation: 4.0,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(80.0);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

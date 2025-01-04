@@ -61,10 +61,11 @@ class CommentComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<CommentModel> commentList = postModel.comments ?? [];
     // List<CommentReplay> commentList = postModel.comments[index].replies?? [];
 
     HomeController controller = Get.find();
+    List<CommentModel> commentList = controller.commentList.value ?? [];
+
 
     RxBool emojiShowing = true.obs;
     RxBool isCommentValid = false.obs; // Reactive boolean for comment validity

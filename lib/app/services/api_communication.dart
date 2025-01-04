@@ -117,13 +117,13 @@ class ApiCommunication {
         var responseData = response.data; // Getting success Response data
         // Showing Success message
         debugPrint('Response Data: $responseData');
-        return ApiResponse(
-          isSuccessful: true,
-          statusCode: responseData[ApiConstant.STATUS_CODE_KEY],
-          data: responseDataKey != ApiConstant.FULL_RESPONSE
-              ? responseData[responseDataKey]
-              : responseData,
-        );
+        return   ApiResponse(
+    isSuccessful: true,
+    statusCode: response.statusCode, // Use HTTP status code directly
+    data: responseDataKey != ApiConstant.FULL_RESPONSE
+        ? responseData // Return the list
+        : responseData,
+  );
       } else {
         // showErrorSnackkbar(message: '${response.statusCode}');
         debugPrint('${response.statusCode}');

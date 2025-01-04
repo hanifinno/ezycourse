@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/components/comment/comment_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +10,6 @@ import '../../../data/login_creadential.dart';
 import '../../../data/post.dart';
 import '../../../models/MediaTypeModel.dart';
 import '../../../models/api_response.dart';
-import '../../../models/comment_model.dart';
 import '../../../models/post.dart';
 import '../../../models/video_campaign_model.dart';
 import '../../../repository/post_repository.dart';
@@ -17,7 +17,6 @@ import '../../../routes/app_pages.dart';
 import '../../../services/api_communication.dart';
 import '../../../utils/post_utlis.dart';
 import '../../../utils/snackbar.dart';
-import '../components/generate_random_indices.dart';
 
 class HomeController extends GetxController {
   late ApiCommunication _apiCommunication;
@@ -42,9 +41,8 @@ class HomeController extends GetxController {
   RxString postID = ''.obs;
 
   RxBool isLoadingNewsFeed = true.obs;
-  RxBool isLoadingUserPages = true.obs;
-  RxBool isLoadingStory = true.obs;
   Rx<List<PostModel>> postList = Rx([]);
+  Rx<List<CommentModel>> commentList = Rx([]);
 
   late ScrollController postScrollController;
 
@@ -58,21 +56,8 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
   Rx<List<MediaTypeModel>> imageFromNetwork = Rx([]);
 
-//pepople you may know
-  RxList<int> randomIndices = <int>[].obs;
-  RandomIndexGenerator randomNumberGenertor = RandomIndexGenerator();
-  RxString selectedReportId = ''.obs;
-  RxString selectedReportType = ''.obs;
-  late TextEditingController reportDescription;
 
-  // void generateRandomIndicesForPosts() {
-  //   // Ensure postList is not empty before generating indices
-  //   if (postList.value.isNotEmpty) {
-  //     // postList.value.clear();
-  //     randomIndices.assignAll(randomNumberGenertor.generateRandomIndices(
-  //         postList.value.length, 10));
-  //   }
-  // }
+
 
   //============================= Pick Media Files =========================================//
 
@@ -131,50 +116,21 @@ class HomeController extends GetxController {
     }
   }
 
-//============================= Get Ads Posts =========================================//
-  Rx<List<PostModel>> adsPostList = Rx([]); // Store ads posts separately
-
-  Future<void> getAdsPagePosts() async {
-    isLoadingNewsFeed.value = true;
-
-    final ApiResponse apiResponse = await postRepository.getAdsPagePosts(
-      pageNo: pageNo,
-      pageSize: pageSize,
+//============================= Fetch Post comments =========================================//
+  Future<void> fetchPostComments(int postId, int index) async {
+    ApiResponse apiResponse = await _apiCommunication.doGetRequest(
+      apiEndPoint: 'app/student/comment/getComment/$postId?more=null',
     );
-    isLoadingNewsFeed.value = false;
     if (apiResponse.isSuccessful) {
-      adsPostList.value.addAll(
-          apiResponse.data as List<PostModel>); // Store the ads separately
-      adsPostList.refresh(); // Refresh the ads list
-    } else {
-      // Handle Error
+      commentList.value =
+          (apiResponse.data as List).map((e) => CommentModel.fromMap(e)).toList();
+      // postList.value[index] = postmodelList.first;
+      // postList.refresh();
     }
   }
-//============================= Get Video Ads =========================================//
 
 
 
-// Video ad Index Dynamic
-
-  // Future<void> getAdsPagePosts() async {
-  //   isLoadingNewsFeed.value = true;
-
-  //   final ApiResponse apiResponse = await postRepository.getAdsPagePosts(
-  //     pageNo: pageNo,
-  //     pageSize: pageSize,
-  //   );
-  //   isLoadingNewsFeed.value = false;
-  //   if (apiResponse.isSuccessful) {
-  //     // totalPageCount = apiResponse.pageCount ?? 1;
-  //     postList.value.addAll(apiResponse.data as List<PostModel>);
-
-  //     postList.refresh();
-  //     generateRandomIndicesForPosts();
-  //     // getPeopleMayYouKnow();
-  //   } else {
-  //     //Error Response
-  //   }
-  // }
 //============================= React on Posts =========================================//
 
   Future<void> reactOnPost({
@@ -200,47 +156,6 @@ class HomeController extends GetxController {
     } else {
       debugPrint(apiResponse.message);
     }
-  }
-//============================= Report on Posts =========================================//
-
-  Future<void> reportAPost({
-    required String post_id,
-    required String report_type,
-    required String description,
-    required String report_type_id,
-  }) async {
-    debugPrint('=================Report Start==========================');
-
-    final apiResponse = await _apiCommunication.doPostRequest(
-      responseDataKey: ApiConstant.FULL_RESPONSE,
-      apiEndPoint: 'save-post-report',
-      enableLoading: true,
-      requestData: {
-        'post_id': post_id,
-        'report_type': report_type,
-        'description': description,
-        'report_type_id': report_type_id
-      },
-    );
-
-    debugPrint(
-        '=================Report Api call end==========================');
-    debugPrint(
-        '=================Report Api status Code ${apiResponse.message}==========================');
-    debugPrint(
-        '=================Report Api success ${apiResponse.isSuccessful}==========================');
-
-    if (apiResponse.isSuccessful) {
-      debugPrint(
-          '=================Report Successful==========================');
-
-      Get.back();
-      Get.back();
-      Get.back();
-      reportDescription.clear();
-
-      showSuccessSnackkbar(message: 'Post reported successfully');
-    } else {}
   }
 
 //============================= Update Posts =========================================//
@@ -590,7 +505,6 @@ class HomeController extends GetxController {
     commentController = TextEditingController();
     commentReplyController = TextEditingController();
     descriptionController = TextEditingController();
-    reportDescription = TextEditingController();
     await fetchCommunityPosts();
 
     // await getAdsPagePosts();
@@ -608,7 +522,6 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     _apiCommunication.endConnection();
-    reportDescription.clear();
 
     super.onClose();
   }

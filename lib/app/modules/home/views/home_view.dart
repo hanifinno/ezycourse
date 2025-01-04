@@ -5,6 +5,7 @@ import '../../../components/image.dart';
 import '../../../components/post/post.dart';
 import '../../../components/post/post_shimer_loader.dart';
 import '../../../config/app_assets.dart';
+import '../../../global_components/custom_app_bar.dart';
 import '../../../models/post.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
@@ -15,23 +16,18 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey shareButtonKey = GlobalKey();
-    // const String baseUrl = 'https://quantumpossibilities.eu/notification/';
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: CustomAppBar(title: 'Python Community', subtitle: '#General',),
       body: RefreshIndicator(
           onRefresh: () async {
             controller.postList.value.clear();
             controller.postList.refresh();
-            // controller.pageNo =1;
-            // controller.totalPageCount =0;
-            // Future.wait([
+            controller.pageNo =1;
+            controller.totalPageCount =0;
             controller.fetchCommunityPosts();
-            // ]);
-            // controller.peopleMayYouKnowList.value.clear();
-            // await Future.wait([
-            //   controller.getPeopleMayYouKnow(),
-            // ]);
+            
           },
           child: SingleChildScrollView(
             controller: controller.postScrollController,
@@ -82,7 +78,7 @@ class HomeView extends GetView<HomeController> {
                     )
                   ],
                 ),
-
+    
                 // ================================================================= Post =================================================================//
                 Obx(
                   () => Column(
@@ -104,7 +100,7 @@ class HomeView extends GetView<HomeController> {
                                     onSixSeconds: () {
                                       // Get.to(()=> VideoAdScreen(videoLink: controller.videoAdList.value.first.campaignCoverPic?.first??''));
                                     },
-
+    
                                     model: postModel,
                                     onSelectReaction: (reaction) {
                                       controller.reactOnPost(
@@ -115,6 +111,7 @@ class HomeView extends GetView<HomeController> {
                                       debugPrint(reaction);
                                     },
                                     onPressedComment: () {
+                                      controller.fetchPostComments(postModel.id??1, actualPostIndex);
                                       Get.bottomSheet(
                                         Obx(
                                           () => CommentComponent(
@@ -296,7 +293,7 @@ class HomeView extends GetView<HomeController> {
                                     },
                                     // : null,
                                     onTapShareViewOtherProfile: () {},
-
+    
                                     /* ============Share Post BottoSheet ==========*/
                                     onPressedShare:
                                        () {},
@@ -306,7 +303,7 @@ class HomeView extends GetView<HomeController> {
                                       'Invalid actualPostIndex: $actualPostIndex, postIndex: $actualPostIndex');
                                   return Container(); // Or return an empty widget or error widget
                                 }
-
+    
                                 // }
                                 // PostModel postModel =
                                 //     controller.postList.value[postIndex];
