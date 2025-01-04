@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../components/comment/comment_component.dart';
 import '../../../components/image.dart';
 import '../../../components/post/post.dart';
 import '../../../components/post/post_shimer_loader.dart';
 import '../../../config/app_assets.dart';
-import '../../../data/login_creadential.dart';
-import '../../../data/post.dart';
 import '../../../models/post.dart';
 import '../../../routes/app_pages.dart';
-import '../../../utils/color.dart';
-import '../../../utils/image.dart';
-import '../../../utils/snackbar.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -103,9 +95,8 @@ class HomeView extends GetView<HomeController> {
                               itemCount: controller.postList.value.length,
                               itemBuilder: (context, postIndex) {
                                 int actualPostIndex = postIndex;
-                                if (actualPostIndex >= 0 &&
-                                    actualPostIndex <
-                                        controller.postList.value.length) {
+                                if (
+                                        controller.postList.value.length!=0) {
                                   // debugPrint('Video Screen triggered:::::::::::: ${controller.videoAdList.value.first.campaignCoverPic?[0]}');
                                   PostModel postModel = controller
                                       .postList.value[actualPostIndex];

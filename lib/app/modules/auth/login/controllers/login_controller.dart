@@ -33,7 +33,7 @@ class LoginController extends GetxController {
         isFormData: true,
         responseDataKey: ApiConstant.FULL_RESPONSE,
       );
-      if (response.isSuccessful && response.statusCode == 200) {
+      if (response.isSuccessful == true) {
         showSuccessSnackkbar(message: 'You are successfully logged in');
         Map<String, dynamic> fullResponse =
             response.data as Map<String, dynamic>;

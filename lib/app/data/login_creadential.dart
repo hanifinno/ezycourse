@@ -17,8 +17,8 @@ class LoginCredential {
         loginResonse['user']); //Retrieving User data from Login Response
     saveUserData(user);
     changeUserAuthState(true);
-    saveAccessToken(loginResonse['accessToken']);
-    saveRefreshToken(loginResonse['refreshToken']);
+    saveAccessToken(loginResonse['token']);
+    // saveRefreshToken(loginResonse['refreshToken']);
   }
 
 //================================================================ User Data ================================================================//

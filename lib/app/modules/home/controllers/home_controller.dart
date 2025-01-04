@@ -65,14 +65,14 @@ class HomeController extends GetxController {
   RxString selectedReportType = ''.obs;
   late TextEditingController reportDescription;
 
-  void generateRandomIndicesForPosts() {
-    // Ensure postList is not empty before generating indices
-    if (postList.value.isNotEmpty) {
-      // postList.value.clear();
-      randomIndices.assignAll(randomNumberGenertor.generateRandomIndices(
-          postList.value.length, 10));
-    }
-  }
+  // void generateRandomIndicesForPosts() {
+  //   // Ensure postList is not empty before generating indices
+  //   if (postList.value.isNotEmpty) {
+  //     // postList.value.clear();
+  //     randomIndices.assignAll(randomNumberGenertor.generateRandomIndices(
+  //         postList.value.length, 10));
+  //   }
+  // }
 
   //============================= Pick Media Files =========================================//
 
@@ -593,8 +593,8 @@ class HomeController extends GetxController {
     reportDescription = TextEditingController();
     await fetchCommunityPosts();
 
-    await getAdsPagePosts();
-    generateRandomIndicesForPosts();
+    // await getAdsPagePosts();
+    // generateRandomIndicesForPosts();
 
     super.onInit();
   }
