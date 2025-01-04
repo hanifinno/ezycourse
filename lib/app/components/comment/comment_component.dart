@@ -64,6 +64,7 @@ class CommentComponent extends StatelessWidget {
     // List<CommentReplay> commentList = postModel.comments[index].replies?? [];
 
     HomeController controller = Get.find();
+    
     List<CommentModel> commentList = controller.commentList.value ?? [];
 
 

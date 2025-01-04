@@ -125,7 +125,7 @@ class HomeController extends GetxController {
       commentList.value =
           (apiResponse.data as List).map((e) => CommentModel.fromMap(e)).toList();
       // postList.value[index] = postmodelList.first;
-      // postList.refresh();
+      postList.refresh();
     }
   }
 
