@@ -3,6 +3,8 @@ import '../modules/auth/login/bindings/login_binding.dart';
 import '../modules/auth/login/views/login_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
+import '../modules/create_post/bindings/create_post_bindings.dart';
+import '../modules/create_post/views/create_post_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 
@@ -87,11 +89,11 @@ class AppPages {
     //   page: () => const UserMenuView(),
     //   binding: UserMenuBinding(),
     // ),
-    // GetPage(
-    //   name: _Paths.CREAT_POST,
-    //   page: () => const CreatePostView(),
-    //   binding: CreatePostBindings(),
-    // ),
+    GetPage(
+      name: _Paths.CREAT_POST,
+      page: () => const CreatePostView(),
+      binding: CreatePostBindings(),
+    ),
     
     // GetPage(
     //   name: _Paths.FEELINGS,

@@ -154,13 +154,16 @@ class TimelinePost extends StatelessWidget {
                 height:
                     (postModel.bgColor != null && postModel.bgColor!.isNotEmpty)
                         ? 280
-                        : null, // Dynamic height if no background color
+                        : null, 
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: (postModel.bgColor != null &&
                           postModel.bgColor!.isNotEmpty)
-                      ? parseBgColor(postModel.bgColor!)
-                      : null,
+                      ? parseBgColor(postModel.bgColor!) ??
+                          Colors
+                              .transparent 
+                      : Colors
+                          .transparent, 
                 ),
                 padding: const EdgeInsets.all(10),
                 child:

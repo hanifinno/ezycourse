@@ -68,25 +68,28 @@ Color getStatusColor(String? status) {
       return Colors.grey; // Default color for unknown statuses
   }
 }
-Color? parseBgColor(String bgColorJson) {
+
+
+Color? parseBgColor(String? bgColorJson) {
+  if (bgColorJson == 'null' ) {
+    return null; 
+  }
+
   try {
-    Map<String, dynamic> bgColorMap = jsonDecode(bgColorJson);
+    Map<String, dynamic> bgColorMap = jsonDecode(bgColorJson!);
 
     String? backgroundImage = bgColorMap['backgroundImage'];
 
     if (backgroundImage != null && backgroundImage.contains('linear-gradient')) {
-      final RegExp colorRegExp = RegExp(r'rgb\((.*?)\)');
+      final RegExp colorRegExp = RegExp(r'rgb\((\d+),\s*(\d+),\s*(\d+)\)');
       final match = colorRegExp.firstMatch(backgroundImage);
 
       if (match != null) {
-        // Extract the RGB values
-        List<int> rgb = match
-            .group(1)!
-            .split(',')
-            .map((value) => int.parse(value.trim()))
-            .toList();
+        int red = int.parse(match.group(1)!);
+        int green = int.parse(match.group(2)!);
+        int blue = int.parse(match.group(3)!);
 
-        return Color.fromARGB(255, rgb[0], rgb[1], rgb[2]);
+        return Color.fromARGB(255, red, green, blue);
       }
     }
   } catch (e) {

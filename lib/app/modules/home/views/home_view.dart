@@ -106,6 +106,7 @@ class HomeView extends GetView<HomeController> {
                                         postModel: postModel,
                                         reaction: reaction,
                                         index: actualPostIndex,
+                                        action: 'Create'
                                       );
                                       debugPrint(reaction);
                                     },

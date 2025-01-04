@@ -15,8 +15,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Image.asset(AppAssets.MENU, height: 20,width: 20,),
-
+      leading: Padding(
+        padding: const EdgeInsets.all(10.0), 
+        child: Image.asset(
+          AppAssets.MENU,
+          height: 24, 
+          width: 24,  
+          fit: BoxFit.contain, 
+        ),
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,8 +43,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      backgroundColor: PRIMARY_COLOR, 
-      elevation: 4.0, 
+      backgroundColor: PRIMARY_COLOR,
+      elevation: 4.0,
     );
   }
 

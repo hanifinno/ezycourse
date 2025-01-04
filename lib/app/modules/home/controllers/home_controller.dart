@@ -11,7 +11,6 @@ import '../../../data/post.dart';
 import '../../../models/MediaTypeModel.dart';
 import '../../../models/api_response.dart';
 import '../../../models/post.dart';
-import '../../../models/video_campaign_model.dart';
 import '../../../repository/post_repository.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/api_communication.dart';
@@ -145,20 +144,23 @@ class HomeController extends GetxController {
     required PostModel postModel,
     required String reaction,
     required int index,
+    required String action
   }) async {
     final apiResponse = await _apiCommunication.doPostRequest(
       responseDataKey: ApiConstant.FULL_RESPONSE,
-      apiEndPoint: 'save-reaction-main-post',
+      apiEndPoint: 'app/teacher/community/createLike?=&=&=&=',
       requestData: {
+
         'reaction_type': reaction,
-        'post_id': postModel.id,
-        'post_single_item_id': null,
+        'feed_id': postModel.id,
+        'reactionSource': 'COMMUNITY',
+        'action': action
       },
     );
 
     if (apiResponse.isSuccessful) {
-      // updateReactionLocally(
-      //     index: index, postId: postModel.id ?? '', reaction: reaction);
+      postList.refresh();
+     
       debugPrint(apiResponse.message);
       // updatePostList(postModel.id ?? '', index);
     } else {

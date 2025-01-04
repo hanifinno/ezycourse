@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:reaction_button/reaction_button.dart';
 
@@ -11,7 +12,7 @@ const SelectedViewGap = SizedBox(width: 5);
 
 final postReactions = [
   ReactionModel(
-    value: 'like',
+    value: 'LIKE',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.LIKE_ICON),
@@ -28,7 +29,7 @@ final postReactions = [
     ),
   ),
   ReactionModel(
-    value: 'love',
+    value: 'LOVE',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.LOVE_ICON),
@@ -45,7 +46,7 @@ final postReactions = [
     ),
   ),
   ReactionModel(
-    value: 'haha',
+    value: 'HAHA',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.HAHA_ICON),
@@ -62,7 +63,7 @@ final postReactions = [
     ),
   ),
   ReactionModel(
-    value: 'wow',
+    value: 'WOW',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.WOW_ICON),
@@ -79,7 +80,7 @@ final postReactions = [
     ),
   ),
   ReactionModel(
-    value: 'sad',
+    value: 'SAD',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.SAD_ICON),
@@ -96,7 +97,7 @@ final postReactions = [
     ),
   ),
   ReactionModel(
-    value: 'angry',
+    value: 'ANGRY',
     initialView: const Image(
       width: width,
       image: AssetImage(AppAssets.ANGRY_ICON),
@@ -112,23 +113,7 @@ final postReactions = [
       ],
     ),
   ),
-  ReactionModel(
-    value: 'unlike',
-    initialView: const Image(
-      width: width,
-      image: AssetImage(AppAssets.UNLIKE_ICON),
-    ),
-    selectedView: const Row(
-      children: [
-        Image(
-          width: width,
-          image: AssetImage(AppAssets.UNLIKE_ICON),
-        ),
-        SelectedViewGap,
-        Text('Unlike', style: selectedViewTextStyle),
-      ],
-    ),
-  ),
+
 ];
 
 class PostReactionButton extends StatelessWidget {
@@ -184,7 +169,7 @@ ReactionModel? getSelectedPostReaction(
   for (post.LikeTypeModel reactionModel
       in postModel.likeType ?? []) {
     // if (reactionModel.user_id == userId) {
-      return getReactionModelAsType(reactionModel.reactionType ?? '');
+      return getReactionModelAsType(reactionModel.reactionType?.toLowerCase()?? '');
     // }
   }
 

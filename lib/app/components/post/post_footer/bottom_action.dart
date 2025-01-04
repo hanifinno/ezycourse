@@ -33,7 +33,7 @@ class BottomAction extends StatelessWidget {
                 selectedReaction: getSelectedPostReaction(
                     model, loginCredential.getUserData().id.toString()?? ''),
                 onChangedReaction: (reaction) {
-                  onSelectReaction(reaction.value);
+                  onSelectReaction(reaction.value.toUpperCase());
                 },
               ),
             ],
@@ -44,28 +44,28 @@ class BottomAction extends StatelessWidget {
           text: 'Comment',
           onPressed: onPressedComment,
         ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              (model.feedPrivacy == 'Public' )
-                  ? PostActionButton(
-                      assetName: AppAssets.COPY_ACTION_ICON,
-                      text: 'Copy Link',
-                      onPressed: () async {
-                        await Clipboard.setData(ClipboardData(
-                            text:
-                                'https://quantumpossibilities.eu/notification/${model.id}'));
-                      },
-                    )
-                  : PostActionButton(
-                      assetName: AppAssets.SHARE_ACTION_ICON,
-                      text: 'Share',
-                      onPressed: onPressedShare,
-                    ),
-            ],
-          ),
-        )
+        // Expanded(
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     children: [
+        //       (model.feedPrivacy == 'Public' )
+        //           ? PostActionButton(
+        //               assetName: AppAssets.COPY_ACTION_ICON,
+        //               text: 'Copy Link',
+        //               onPressed: () async {
+        //                 await Clipboard.setData(ClipboardData(
+        //                     text:
+        //                         'https://quantumpossibilities.eu/notification/${model.id}'));
+        //               },
+        //             )
+        //           : PostActionButton(
+        //               assetName: AppAssets.SHARE_ACTION_ICON,
+        //               text: 'Share',
+        //               onPressed: onPressedShare,
+        //             ),
+        //     ],
+        //   ),
+        // )
       ],
     );
   }
