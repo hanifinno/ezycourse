@@ -28,10 +28,10 @@ class CreatePostView extends GetView<CreatePostController> {
                   onPressed: () {
                     Get.back();
                   },
-                  child: const Text(
+                  child:  Text(
                     "Close",
                     style: TextStyle(
-                      color: Colors.grey,
+                      color: Colors.grey.shade800,
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
                     ),
@@ -84,7 +84,7 @@ class CreatePostView extends GetView<CreatePostController> {
                       BorderRadius.circular(8), 
                 ),
               ),
-              cursorColor: Colors.green, 
+              cursorColor: PRIMARY_COLOR, 
               style: const TextStyle(fontSize: 18),
             ),
           ),

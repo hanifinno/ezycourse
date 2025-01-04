@@ -67,11 +67,11 @@ class CreatePostController extends GetxController {
       'upload_type': 'text',
       'activity_type': 'group',
       'is_background': isBackgroundColorPost.value ? 1 : 0,
-      'post_background_color': getBackgroundColor(),
+      // 'post_background_color': getBackgroundColor(),
     };
 
     final ApiResponse response = await _apiCommunication.doPostRequest(
-      apiEndPoint: 'save-post',
+      apiEndPoint: 'app/teacher/community/createFeedWithUpload?',
       isFormData: true,
       enableLoading: true,
       requestData: requestData,
