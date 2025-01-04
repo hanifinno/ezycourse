@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/modules/home/components/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../components/comment/comment_component.dart';
@@ -15,8 +16,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey shareButtonKey = GlobalKey();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(title: 'Python Community', subtitle: '#General',),
@@ -318,6 +317,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           )),
+          bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 

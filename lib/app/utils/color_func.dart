@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 Color getColorFromHex(String hexColor) {
@@ -65,4 +67,31 @@ Color getStatusColor(String? status) {
     default:
       return Colors.grey; // Default color for unknown statuses
   }
+}
+Color? parseBgColor(String bgColorJson) {
+  try {
+    Map<String, dynamic> bgColorMap = jsonDecode(bgColorJson);
+
+    String? backgroundImage = bgColorMap['backgroundImage'];
+
+    if (backgroundImage != null && backgroundImage.contains('linear-gradient')) {
+      final RegExp colorRegExp = RegExp(r'rgb\((.*?)\)');
+      final match = colorRegExp.firstMatch(backgroundImage);
+
+      if (match != null) {
+        // Extract the RGB values
+        List<int> rgb = match
+            .group(1)!
+            .split(',')
+            .map((value) => int.parse(value.trim()))
+            .toList();
+
+        return Color.fromARGB(255, rgb[0], rgb[1], rgb[2]);
+      }
+    }
+  } catch (e) {
+    debugPrint('Error parsing bgColor: $e');
+  }
+
+  return null; 
 }

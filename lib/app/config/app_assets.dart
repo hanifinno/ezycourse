@@ -3,12 +3,15 @@ class AppAssets {
   // static const String APP_LOGO = 'assets/logo/app_logo.png';
   static const String APP_LOGO = 'assets/logo/app_logo_head.png';
   static const String APP_BG= 'assets/logo/bg.png';
+  static const String LOGOUT= 'assets/logo/logout.png';
+  static const String MENU= 'assets/logo/menu.png';
+  static const String COMMUNITY= 'assets/logo/community.png';
   // Default Image
   static const String DEFAULT_IMAGE = 'assets/image/default_image.png';
   static const String DEFAULT_STORY_IMAGE =
       'assets/image/default_story_image.png';
   static const String DEFAULT_PROFILE_IMAGE =
-      'assets/image/default_profile_image.png';
+      'assets/logo/person.png';
   //Appbar
   static const String MESSAGER_ICON = 'assets/icon/appbar/messenger_icon.png';
   static const String MESSAGE_APPBAR_ICON =

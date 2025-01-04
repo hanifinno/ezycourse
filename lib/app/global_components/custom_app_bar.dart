@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/config/app_assets.dart';
 import 'package:ezycourse/app/utils/color.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +15,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {
-          Scaffold.of(context).openDrawer(); 
-        },
-      ),
+      leading: Image.asset(AppAssets.MENU),
+      // IconButton(
+      //   icon: const Icon(Icons.menu),
+      //   onPressed: () {
+      //     Scaffold.of(context).openDrawer(); 
+      //   },
+      // ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

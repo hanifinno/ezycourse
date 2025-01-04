@@ -56,6 +56,7 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
   Rx<List<MediaTypeModel>> imageFromNetwork = Rx([]);
 
+  var selectedIndex = 0.obs;
 
 
 
@@ -73,7 +74,14 @@ class HomeController extends GetxController {
     }
     onTapCreatePost();
   }
-
+//===============Tab Change==============//
+  void changeTab(int index) {
+    if (index == 1) {
+      print("Logout tapped");
+    } else {
+      selectedIndex.value = index;
+    }
+  }
   //======================================================== Post Related Functions ===============================================//
   void onTapCreatePost() async {
     await Get.toNamed(Routes.CREAT_POST, arguments: {
@@ -157,7 +165,10 @@ class HomeController extends GetxController {
       debugPrint(apiResponse.message);
     }
   }
-
+void logout() {
+    loginCredential.clearLoginCredential();
+    Get.offAllNamed(Routes.LOGIN);
+  }
 //============================= Update Posts =========================================//
   Future<void> updatePostList(String postId, int index) async {
     ApiResponse apiResponse = await _apiCommunication.doGetRequest(

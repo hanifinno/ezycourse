@@ -9,6 +9,7 @@ import '../../../models/post.dart';
 import '../../../models/share_post_id.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/color.dart';
+import '../../../utils/color_func.dart';
 import '../../../utils/date_time.dart';
 import '../../../utils/file.dart';
 import '../../../utils/image.dart';
@@ -61,11 +62,10 @@ class PostBodyView extends StatelessWidget {
           onTapViewMoreMedia: onTapBodyViewMoreMedia,
           onTapViewOtherProfile: onTapViewOtherProfile ?? () {},
         );
-    
+
       case 'photos':
         return ProfilePicturePost(postModel: model);
-     
-  
+
       default:
         return Container();
     }
@@ -108,137 +108,130 @@ class TimelinePost extends StatelessWidget {
     // }
 
     return ((postModel.files?.length ?? 0) > 0)
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      (postModel.feedTxt?.isNotEmpty ?? true)
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 5, bottom: 10),
-                              child: ExpandableText(
-                                postModel.feedTxt ?? '',
-                                expandText: 'See more',
-                                maxLines: 5,
-                                collapseText: 'see less',
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                            )
-                          : const SizedBox(),
-                      ((postModel.files?.length ?? 0) > 1)
-                          ? SizedBox(
-                              height: 500,
-                              child: MediaGridView(
-                                  mediaUrls: imageUrls,
-                                  onTapViewMoreMedia: onTapViewMoreMedia),
-                            )
-                          : isImageUrl(imageUrls[0])
-                              ? InkWell(
-                                  onTap: onTapViewMoreMedia,
-                                  child: PrimaryNetworkImage(
-                                      imageUrl: imageUrls[0]))
-                              : SizedBox(
-                                  height: 250,
-                                  // child: CustomVideoPlayer(
-                                  //   postId: postModel.id ?? '',
-                                  //   videoLink: imageUrls[0],
-                                  //   adVideoLink: adVideoLink,
-                                  //   campaignCallToAction: campaignCallToAction,
-                                  //   campaignDescription: campaignDescription,
-                                  //   campaignName: campaignName,
-                                  //   campaignWebUrl: campaignWebUrl,
-                                  //   actionButtonText: actionButtonText,
-                                  // ),
-                                ),
-                    ],
-                  )
-                : ((postModel.files?.length ?? 0) == 0)
-                    ? Container(
-                        // =================================================== No Media Post ===================================================
-                        height: (postModel.bgColor != null &&
-                                postModel.bgColor!.isNotEmpty &&
-                                postModel.bgColor! != '')
-                            ? 280
-                            : null, // not having background color will make height dynamic
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                            color: (postModel.bgColor != null &&
-                                    postModel.bgColor!.isNotEmpty)
-                                ? Color(int.parse(
-                                    '0xff${postModel.bgColor}'))
-                                : null),
-                        padding: const EdgeInsets.all(10),
-                        child: (postModel.bgColor != null &&
-                                postModel.bgColor != '')
-                            ? Center(
-                                child: Text(
-                                  postModel.feedTxt ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 24),
-                                ),
-                              )
-                            : ExpandableText(
-                                postModel.feedTxt ?? '',
-                                expandText: 'See more',
-                                maxLines: 5,
-                                collapseText: 'see less',
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                      )
-                    : Column(
-                        //======================================================== Showing Link Post ========================================================//
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: RichText(
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                    children: getTextWithLink(
-                                        postModel.feedTxt ?? ''))),
-                          ),
-                          GestureDetector(
-                              onTap: () async {
-                                String url = postModel.feedTxt.toString();
-                                await launchUrl(Uri.parse(url));
-                              },
-                              child: PrimaryNetworkImage(
-                                  imageUrl: postModel.files?.first.fileLoc??'')),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration:
-                                BoxDecoration(color: Colors.grey.shade300),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  postModel.title ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                ExpandableText(
-                                  postModel.feedTxt ?? '',
-                                  expandText: 'See more',
-                                  maxLines: 5,
-                                  collapseText: 'see less',
-                                  style: const TextStyle(color: Colors.black),
-                                )
-                              ],
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              (postModel.feedTxt?.isNotEmpty ?? true)
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 5, bottom: 10),
+                      child: ExpandableText(
+                        postModel.feedTxt ?? '',
+                        expandText: 'See more',
+                        maxLines: 5,
+                        collapseText: 'see less',
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    )
+                  : const SizedBox(),
+              ((postModel.files?.length ?? 0) > 1)
+                  ? SizedBox(
+                      height: 500,
+                      child: MediaGridView(
+                          mediaUrls: imageUrls,
+                          onTapViewMoreMedia: onTapViewMoreMedia),
+                    )
+                  : isImageUrl(imageUrls[0])
+                      ? InkWell(
+                          onTap: onTapViewMoreMedia,
+                          child: PrimaryNetworkImage(imageUrl: imageUrls[0]))
+                      : SizedBox(
+                          height: 250,
+                          // child: CustomVideoPlayer(
+                          //   postId: postModel.id ?? '',
+                          //   videoLink: imageUrls[0],
+                          //   adVideoLink: adVideoLink,
+                          //   campaignCallToAction: campaignCallToAction,
+                          //   campaignDescription: campaignDescription,
+                          //   campaignName: campaignName,
+                          //   campaignWebUrl: campaignWebUrl,
+                          //   actionButtonText: actionButtonText,
+                          // ),
+                        ),
+            ],
+          )
+        : ((postModel.files?.length ?? 0) == 0)
+            ? Container(
+                height:
+                    (postModel.bgColor != null && postModel.bgColor!.isNotEmpty)
+                        ? 280
+                        : null, // Dynamic height if no background color
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: (postModel.bgColor != null &&
+                          postModel.bgColor!.isNotEmpty)
+                      ? parseBgColor(postModel.bgColor!)
+                      : null,
+                ),
+                padding: const EdgeInsets.all(10),
+                child:
+                    (postModel.bgColor != null && postModel.bgColor!.isNotEmpty)
+                        ? Center(
+                            child: Text(
+                              postModel.feedTxt ?? '',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 24),
                             ),
                           )
-                        ],
-                      );
-           
+                        : ExpandableText(
+                            postModel.feedTxt ?? '',
+                            expandText: 'See more',
+                            maxLines: 5,
+                            collapseText: 'see less',
+                            style: const TextStyle(color: Colors.black),
+                          ),
+              )
+            : Column(
+                //======================================================== Showing Link Post ========================================================//
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: RichText(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                            children:
+                                getTextWithLink(postModel.feedTxt ?? ''))),
+                  ),
+                  GestureDetector(
+                      onTap: () async {
+                        String url = postModel.feedTxt.toString();
+                        await launchUrl(Uri.parse(url));
+                      },
+                      child: PrimaryNetworkImage(
+                          imageUrl: postModel.files?.first.fileLoc ?? '')),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(color: Colors.grey.shade300),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          postModel.title ?? '',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        ExpandableText(
+                          postModel.feedTxt ?? '',
+                          expandText: 'See more',
+                          maxLines: 5,
+                          collapseText: 'see less',
+                          style: const TextStyle(color: Colors.black),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
   }
 }
 
 //======================== Shared Timeline Post Line ========================//
 
 //=============================================================== Page Post
-
 
 //=============================================================== Profile Picture Post
 
@@ -264,12 +257,6 @@ class ProfilePicturePost extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-
 String getDynamicFormatedTime(String time) {
   // print("time of date ........."+time);
 
@@ -281,7 +268,3 @@ String getDynamicFormatedTime(String time) {
   }
   return productDateTimeFormate.format(postDateTime);
 }
-
-
-
-
