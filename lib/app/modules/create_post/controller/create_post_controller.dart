@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,51 +12,43 @@ import '../../../models/post.dart';
 import '../../../services/api_communication.dart';
 import '../../../utils/snackbar.dart';
 
-
 class CreatePostController extends GetxController {
   late ApiCommunication _apiCommunication;
   late LoginCredential _loginCredential;
   late UserModel userModel;
   late TextEditingController descriptionController;
+
   var feelingController = ''.obs;
   var tagPeopleController = ''.obs;
   RxString wordLimit = ''.obs;
 
-
   // For Background color post view
-  Rx<Color> postBackgroundColor = postListColor.first.obs;
+  Rx<LinearGradient?> postGradientBackground = postListColor.first.obs;
   Rx<bool> isBackgroundColorPost = false.obs;
 
-
-  // RxString orgName = ''.obs;
-
-  // Rx<String?> endDate = Rx(null);
-
-  RxString dropdownValue = privacyList.first.obs;
-
-  Rx<List<XFile>> xfiles = Rx([]);
-
-
-  
-
-
-
-  //Relationship
   Rx<String> postPrivacy = 'Public'.obs;
 
+  RxString dropdownValue = privacyList.first.obs;
+  Rx<List<XFile>> xfiles = Rx([]);
 
 
   String? getBackgroundColor() {
     if (isBackgroundColorPost.value) {
-      return postBackgroundColor.value.value.toRadixString(16).substring(2, 8);
-    } else {
-      return null;
+      final gradient = postGradientBackground.value;
+      if (gradient != null) {
+        return jsonEncode({
+          'colors': gradient.colors
+              .map((color) =>
+                  color.value.toRadixString(16).padLeft(8, '0').substring(2, 8))
+              .toList(),
+        });
+      }
     }
+    return null;
   }
 
   bool isValidPost() {
     if (descriptionController.text.isNotEmpty || xfiles.value.isNotEmpty) {
-      if (getBackgroundColor() != null) {}
       return true;
     }
     return false;
@@ -63,34 +56,34 @@ class CreatePostController extends GetxController {
 
   Future<void> onTapCreatePost() async {
     if (!isValidPost()) {
-      showWarningSnackkbar(message: 'Empty post can not be submitted');
+      showWarningSnackkbar(message: 'Empty post cannot be submitted');
+      return;
+    }
+
+    final requestData = {
+      'feed_txt': descriptionController.text,
+      'community_id': 2914,
+      'space_id': 5883,
+      'upload_type': 'text',
+      'activity_type': 'group',
+      'is_background': isBackgroundColorPost.value ? 1 : 0,
+      'post_background_color': getBackgroundColor(),
+    };
+
+    final ApiResponse response = await _apiCommunication.doPostRequest(
+      apiEndPoint: 'save-post',
+      isFormData: true,
+      enableLoading: true,
+      requestData: requestData,
+    );
+
+    if (response.isSuccessful) {
+      Get.back();
+      showSuccessSnackkbar(message: 'Post submitted successfully');
     } else {
-      final ApiResponse response = await _apiCommunication.doPostRequest(
-          apiEndPoint: 'save-post',
-          isFormData: true,
-          enableLoading: true,
-          requestData: {
-            'feed_txt': descriptionController.text,
-            'community_id': 2914,
-            'space_id': 5883,
-            'upload_type': 'text',
-            'activity_type': 'group',
-            'is_background': 0,
-            // 'post_privacy': (getPostPrivacyValue(dropdownValue.value)),
-            // 'post_background_color': getBackgroundColor(),
-            
-          },
-       );
-      if (response.isSuccessful) {
-        Get.back();
-        showSuccessSnackkbar(message: 'Post submitted successfully');
-      } else {
-        debugPrint('');
-      }
+      showWarningSnackkbar(message: 'Failed to submit post');
     }
   }
-
-
 
   Future<void> pickFiles() async {
     final ImagePicker picker = ImagePicker();
@@ -103,16 +96,9 @@ class CreatePostController extends GetxController {
   void onInit() {
     _apiCommunication = ApiCommunication();
     _loginCredential = LoginCredential();
-    if (Get.arguments != null) {
-      xfiles.value = Get.arguments['media_files'];
-    }
-    else{
-      xfiles.value = [];
-    }
+    xfiles.value = Get.arguments?['media_files'] ?? [];
     descriptionController = TextEditingController();
-   
     userModel = _loginCredential.getUserData();
-   
     super.onInit();
   }
 

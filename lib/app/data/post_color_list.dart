@@ -4,27 +4,24 @@
 
 import 'package:flutter/material.dart';
 
-// List<Color> postListColor = [
-//   const Color(0xfff8f6f6),
-//   const Color(0xff2DB9B9),
-//   const Color(0xff0019FE),
-//   const Color(0xff1C5A76),
-//   const Color(0xff00A3FF),
-//   const Color(0xffF25268),
-//   const Color(0xffFF6928),
-//   const Color(0xffF8D000),
-//   const Color(0xffA9E400),
-//   const Color(0xffEE0000),
-// ];
-List<Color> postListColor = [
-   const Color(0xfff8f6f6),
-  const Color(0xFFFF69B4), // #ff69b4
-  const Color(0xFF9E9E9E), // #9e9e9e
-  const Color(0xFF14744F), // #14744f
-  const Color(0xFF0C0C0B), // #0c0c0b
-  const Color(0xFFFFFB00), // #fffb00
-  const Color(0xFF0000FF), // #0000ff
-  const Color(0xFF00FF00), // #00ff00
-  const Color(0xFFFF0000), // #ff0000
-  const Color(0xFF3498DB), // #3498db
+List<LinearGradient> postListColor = [
+  const LinearGradient(
+    colors: [Color(0xFFf8f6f6), Color(0xFFf8f6f6)],
+  ),
+  const LinearGradient(
+    colors: [Color(0xFFFA2828), Color(0xFFFF24C8)], 
+  ),
+  const LinearGradient(
+    colors: [Color(0xFFC2FA28), Color(0xFF53A21E)], 
+  ),
+  const LinearGradient(
+    colors: [Color(0xFFF7FA28), Color(0xFFCF5C10)], 
+  ),
+  const LinearGradient(
+    colors: [Color(0xFFFFA481), Color(0xFFCB0003)],
+  ),
+  const LinearGradient(
+    colors: [Color(0xFF28FADE), Color(0xFF106CCF)], 
+  ),
+  
 ];
