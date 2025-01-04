@@ -552,22 +552,44 @@ class ApiCommunication {
       }
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = response.data;
-        debugPrint('$responseData');
-        return ApiResponse(
-          isSuccessful: true,
-          statusCode: responseData[ApiConstant.STATUS_CODE_KEY],
-          message: responseData['message'],
-          data: responseDataKey != ApiConstant.FULL_RESPONSE
-              ? responseData[responseDataKey]
-              : responseData,
-        );
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic>) {
+          debugPrint('$responseData');
+          return ApiResponse(
+            isSuccessful: true,
+            statusCode: responseData[ApiConstant.STATUS_CODE_KEY],
+            message: responseData['message'],
+            data: responseDataKey != ApiConstant.FULL_RESPONSE
+                ? responseData[responseDataKey]
+                : responseData,
+          );
+        } else if (responseData is List) {
+          // If the response is a List, handle it appropriately
+          debugPrint('List Response: $responseData');
+          return ApiResponse(
+            isSuccessful: true,
+            statusCode: 200, // Default status code for successful response
+            message: 'Request successful',
+            data:
+                responseData, // Pass the list directly or process it as needed
+          );
+        } else {
+          debugPrint('Unexpected response format: $responseData');
+          return ApiResponse(
+            isSuccessful: false,
+            statusCode: 500,
+            message: 'Unexpected response format',
+            data: null,
+          );
+        }
       } else {
-        // showErrorSnackkbar(message: '${response.statusCode}');
-        debugPrint('${response.statusCode}');
+        debugPrint('Failed to fetch data: ${response.statusCode}');
         return ApiResponse(
           isSuccessful: false,
           statusCode: response.statusCode,
+          message: 'Failed to fetch data',
+          data: null,
         );
       }
     } else {

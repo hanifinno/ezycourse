@@ -16,10 +16,15 @@ class PostRepository {
     final apiResponse = await _apiCommunication.doPostRequest(
       responseDataKey: ApiConstant.FULL_RESPONSE,
       apiEndPoint: 'app/teacher/community/getFeed?status=feed&',
+      requestData: {
+        'community_id': 2914,
+        'space_id': 5883,
+        'more': null
+      }
     );
 
     if (apiResponse.isSuccessful) {
-      postList = (((apiResponse.data as Map<String, dynamic>)) as List)
+      postList = (((apiResponse.data as List<dynamic>)) as List)
           .map((element) => PostModel.fromMap(element))
           .toList();
       ApiResponse apiResponseToPass =
