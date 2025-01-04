@@ -1,24 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart' as slider;
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../config/app_assets.dart';
-import '../../../models/media.dart';
+
 import '../../../models/post.dart';
-import '../../../models/share_post_id.dart';
-import '../../../routes/app_pages.dart';
-import '../../../utils/color.dart';
+
 import '../../../utils/color_func.dart';
 import '../../../utils/date_time.dart';
-import '../../../utils/file.dart';
 import '../../../utils/image.dart';
 import '../../../utils/post_utlis.dart';
-import '../../../utils/url_launcher.dart';
 import '../../image.dart';
 import '../../single_image.dart';
-import '../../video_player.dart';
-import '../media_grid/media_grid.dart';
 
 class PostBodyView extends StatelessWidget {
   const PostBodyView(
@@ -124,28 +116,13 @@ class TimelinePost extends StatelessWidget {
                     )
                   : const SizedBox(),
               ((postModel.files?.length ?? 0) > 1)
-                  ? SizedBox(
-                      height: 500,
-                      child: MediaGridView(
-                          mediaUrls: imageUrls,
-                          onTapViewMoreMedia: onTapViewMoreMedia),
-                    )
-                  : isImageUrl(imageUrls[0])
+                 
                       ? InkWell(
                           onTap: onTapViewMoreMedia,
                           child: PrimaryNetworkImage(imageUrl: imageUrls[0]))
                       : SizedBox(
                           height: 250,
-                          // child: CustomVideoPlayer(
-                          //   postId: postModel.id ?? '',
-                          //   videoLink: imageUrls[0],
-                          //   adVideoLink: adVideoLink,
-                          //   campaignCallToAction: campaignCallToAction,
-                          //   campaignDescription: campaignDescription,
-                          //   campaignName: campaignName,
-                          //   campaignWebUrl: campaignWebUrl,
-                          //   actionButtonText: actionButtonText,
-                          // ),
+                      
                         ),
             ],
           )

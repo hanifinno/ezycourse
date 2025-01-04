@@ -13,7 +13,6 @@ import '../../utils/color.dart';
 import '../image.dart';
 
 import '../../config/app_assets.dart';
-import '../../utils/image.dart';
 import 'comment_tile.dart';
 
 class CommentComponent extends StatelessWidget {
@@ -125,12 +124,12 @@ class CommentComponent extends StatelessWidget {
                     inputNodes: focusNode,
                     textEditingController: commentController,
                     onSelectCommentReaction: (reaction) {
-                      onSelectCommentReaction(reaction, commentModel.id.toString() ?? '');
+                      onSelectCommentReaction(reaction, commentModel.id.toString() );
                     },
                     onSelectCommentReplayReaction:
                         (reaction, commentRepliesId) {
                       onSelectCommentReplayReaction(
-                          reaction, commentModel.id.toString() ?? '', commentRepliesId);
+                          reaction, commentModel.id.toString() , commentRepliesId);
                     },
                     commentIndex: commentIndex,
                     onCommentDelete: onCommentDelete,

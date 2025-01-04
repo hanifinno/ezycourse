@@ -2,7 +2,6 @@
 import '../config/api_constant.dart';
 import '../models/api_response.dart';
 import '../models/post.dart';
-import '../models/video_campaign_model.dart';
 import '../services/api_communication.dart';
 
 class PostRepository {

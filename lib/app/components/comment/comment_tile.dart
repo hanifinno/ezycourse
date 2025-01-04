@@ -3,8 +3,6 @@ import 'package:ezycourse/app/models/post.dart';
 import 'package:ezycourse/app/utils/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../config/api_constant.dart';
 import '../../config/app_assets.dart';
 import '../../modules/home/controllers/home_controller.dart';
@@ -299,7 +297,7 @@ class CommentTile extends StatelessWidget {
                                     selectedReaction:
                                         getSelectedCommentReplayReaction(
                                             commentModel.replies![index],
-                                            currentUserModel.id.toString() ?? ''),
+                                            currentUserModel.id.toString() ),
                                     onChangedReaction: (reaction) {
                                       onSelectCommentReplayReaction(
                                           reaction.value,

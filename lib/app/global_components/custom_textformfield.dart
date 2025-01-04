@@ -44,7 +44,9 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       style: CustomTextStyles.interBlack(color: Colors.white),
       maxLines: maxLines,
+      cursorColor: Colors.white,
       decoration: InputDecoration(
+        
         hintText: hintText,
         hintStyle: hintStyle ??
             const TextStyle(

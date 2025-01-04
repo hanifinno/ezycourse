@@ -1,17 +1,13 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../config/api_constant.dart';
-import '../../../config/app_assets.dart';
-import '../../../data/login_creadential.dart';
+
 import '../../../models/post.dart';
 
 import '../../../modules/home/controllers/home_controller.dart';
-import '../../../routes/app_pages.dart';
-import '../../../utils/image.dart';
+
 import '../../../utils/post_utlis.dart';
 import '../../image.dart';
-import '../../post_tag_list.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel model;

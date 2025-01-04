@@ -1,11 +1,9 @@
 import 'package:ezycourse/app/components/responsive/responsive.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/app_assets.dart';
 
-import '../../../../global_components/custom_elevated_button.dart';
 import '../../../../global_components/custom_fonts.dart';
 import '../../../../global_components/custom_gradient_elevated_button.dart';
 import '../../../../global_components/custom_textbutton.dart';
@@ -71,7 +69,7 @@ class LoginView extends GetView<LoginController> {
                       )),
                   child: Container(
                     width: Responsive.getWidth(context),
-                    padding: EdgeInsets.only(top: 20,bottom: 60, left: 20, right: 20),
+                    padding: const EdgeInsets.only(top: 20,bottom: 60, left: 20, right: 20),
                     decoration: const BoxDecoration(
                         color: PRIMARY_COLOR_3,
                         borderRadius: BorderRadius.only(
@@ -85,8 +83,8 @@ class LoginView extends GetView<LoginController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
-                                child: const Text(
+                              const Center(
+                                child: Text(
                                   'Sign In',
                                   style: TextStyle(
                                     color: Colors.white,

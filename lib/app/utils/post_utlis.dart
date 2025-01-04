@@ -1,14 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:get/get.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 
 import '../config/app_assets.dart';
-import '../data/login_creadential.dart';
-import '../models/post.dart';
-import '../models/user.dart';
+
 import 'date_time.dart';
 
 String getReactionIconPath(String reactionType) {
