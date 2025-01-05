@@ -19,7 +19,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: const CustomAppBar(
-        title: 'Python Community',
+        title: 'EzyCourse Community',
         subtitle: '#General',
       ),
       body: RefreshIndicator(
