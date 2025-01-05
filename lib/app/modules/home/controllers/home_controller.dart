@@ -2,7 +2,6 @@ import 'package:ezycourse/app/components/comment/comment_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/api_constant.dart';
@@ -522,30 +521,6 @@ void logout() {
 
   /////////////////////////////////////////////////////////////////////
 
-  Future<void> shareUserPost(String sharePostId) async {
-    ApiResponse apiResponse = await _apiCommunication.doPostRequest(
-        apiEndPoint: 'save-share-post-with-caption',
-        requestData: {
-          'share_post_id': sharePostId,
-          'description': descriptionController.text.toString(),
-          'privacy': (getPostPrivacyValue(postPrivacy.value)),
-        });
-
-    debugPrint(
-        'Update model status code.............${apiResponse.statusCode}');
-
-    if (apiResponse.isSuccessful) {
-      showSuccessSnackkbar(message: 'Your post has been shared');
-      pageNo = 1;
-      totalPageCount = 0;
-      postList.value.clear();
-      fetchCommunityPosts();
-    } else {}
-  }
-
-  sharePost(String text) {
-    Share.share(text);
-  }
 
   void launchURL(String urlString) async {
     final Uri url = Uri.parse(urlString);

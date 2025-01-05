@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/reaction_controller.dart';
@@ -18,7 +19,7 @@ class ReactionView extends GetView<ReactionController> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor:PRIMARY_COLOR
       ),
       body: Obx(
         () => controller.reactionList.isEmpty
