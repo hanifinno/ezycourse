@@ -725,7 +725,8 @@ class ApiCommunication {
         debugPrint('$responseData');
         return ApiResponse(
           isSuccessful: true,
-          statusCode: responseData[ApiConstant.STATUS_CODE_KEY],
+         statusCode: int.tryParse(responseData[ApiConstant.STATUS_CODE_KEY]?.toString() ?? ''),
+
           message: responseData['message'],
           data: responseDataKey != ApiConstant.FULL_RESPONSE
               ? responseData[responseDataKey]
