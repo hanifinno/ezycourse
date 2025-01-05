@@ -96,9 +96,6 @@ class HomeView extends GetView<HomeController> {
                                   PostModel postModel = controller
                                       .postList.value[actualPostIndex];
                                   return PostCard(
-                                    onSixSeconds: () {
-                                      // Get.to(()=> VideoAdScreen(videoLink: controller.videoAdList.value.first.campaignCoverPic?.first??''));
-                                    },
     
                                     model: postModel,
                                     onSelectReaction: (reaction) {
@@ -182,22 +179,23 @@ class HomeView extends GetView<HomeController> {
                                                 .value[actualPostIndex],
                                             userModel: controller.userModel,
                                             onTapSendComment: () {
-                                              controller.commentOnPost(
-                                                  actualPostIndex, postModel);
+                                              controller.createPostComments(postModel.id??1,
+                                                  actualPostIndex);
                                             },
                                             onTapReplayComment: ({
                                               required commentReplay,
                                               required comment_id,
                                             }) {
-                                              controller.commentReply(
-                                                comment_id: comment_id,
-                                                replies_comment_name:
-                                                    commentReplay,
-                                                post_id:
-                                                    postModel.id.toString() ??
-                                                        '',
-                                                postIndex: actualPostIndex,
-                                              );
+                                              controller.createPostReplyComments(postModel.id??0, actualPostIndex, comment_id);
+                                              // controller.commentReply(
+                                              //   comment_id: comment_id,
+                                              //   replies_comment_name:
+                                              //       commentReplay,
+                                              //   post_id:
+                                              //       postModel.id.toString() ??
+                                              //           '',
+                                              //   postIndex: actualPostIndex,
+                                              // );
                                             },
                                             onSelectCommentReaction: (
                                               reaction,

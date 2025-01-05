@@ -25,7 +25,6 @@ class PostCard extends StatelessWidget {
       this.adVideoLink,
       this.onTapViewPostHistory,
       required this.onTapViewReactions,
-      required this.onSixSeconds,
       this.campaignWebUrl,
       this.campaignName,
       this.actionButtonText,
@@ -48,7 +47,6 @@ class PostCard extends StatelessWidget {
   final VoidCallback? onTapCopyPost;
   final VoidCallback? onTapViewPostHistory;
   final VoidCallback? onTapPinPost;
-  final VoidCallback onSixSeconds;
   final String? viewType;
   final String? adVideoLink;
   final String? campaignWebUrl;
@@ -86,7 +84,6 @@ class PostCard extends StatelessWidget {
                       campaignName: campaignName,
                       campaignDescription: campaignDescription,
                       campaignCallToAction: campaignCallToAction,
-                      onSixSeconds: onSixSeconds,
                       model: model,
                       onTapBodyViewMoreMedia: onTapBodyViewMoreMedia,
                       onTapViewOtherProfile: onTapViewOtherProfile ?? () {},

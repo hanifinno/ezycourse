@@ -24,13 +24,11 @@ class PostBodyView extends StatelessWidget {
       this.campaignCallToAction,
       required this.onTapBodyViewMoreMedia,
       this.onTapViewOtherProfile,
-      required this.onSixSeconds,
       this.onTapShareViewOtherProfile});
   final PostModel model;
   final VoidCallback onTapBodyViewMoreMedia;
   final VoidCallback? onTapViewOtherProfile;
   final VoidCallback? onTapShareViewOtherProfile;
-  final VoidCallback onSixSeconds;
   final String? adVideoLink;
   final String? campaignWebUrl;
   final String? campaignName;
@@ -48,7 +46,6 @@ class PostBodyView extends StatelessWidget {
           campaignName: campaignName,
           campaignWebUrl: campaignWebUrl,
           actionButtonText: actionButtonText,
-          onSixSeconds: onSixSeconds,
           adVideoLink: adVideoLink,
           postModel: model,
           onTapViewMoreMedia: onTapBodyViewMoreMedia,
@@ -71,7 +68,6 @@ class TimelinePost extends StatelessWidget {
       {super.key,
       required this.postModel,
       required this.onTapViewMoreMedia,
-      required this.onSixSeconds,
       this.campaignWebUrl,
       this.campaignName,
       this.campaignDescription,
@@ -83,7 +79,6 @@ class TimelinePost extends StatelessWidget {
   final PostModel postModel;
   final VoidCallback onTapViewMoreMedia;
   final VoidCallback onTapViewOtherProfile;
-  final VoidCallback onSixSeconds;
   final String? adVideoLink;
   final String? campaignWebUrl;
   final String? campaignName;

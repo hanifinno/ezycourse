@@ -7,6 +7,8 @@ import '../modules/create_post/bindings/create_post_bindings.dart';
 import '../modules/create_post/views/create_post_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/post_reaction/bindings/reaction_binding.dart';
+import '../modules/post_reaction/views/reaction_view.dart';
 
 part 'app_routes.dart';
 
@@ -107,11 +109,11 @@ class AppPages {
     // ),
   
   
-    // GetPage(
-    //   name: _Paths.REACTIONS,
-    //   page: () => const ReactionsView(),
-    //   binding: ReactionsBinding(),
-    // ),
+    GetPage(
+      name: _Paths.REACTIONS,
+      page: () => const ReactionView(),
+      binding: ReactionBinding(),
+    ),
    
     // GetPage(
     //   name: _Paths.OTHERS_PROFILE,

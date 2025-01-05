@@ -135,6 +135,59 @@ class HomeController extends GetxController {
       postList.refresh();
     }
   }
+//============================= Fetch Post replies =========================================//
+  Future<void> fetchPostReply(int postId, int index) async {
+    ApiResponse apiResponse = await _apiCommunication.doGetRequest(
+      apiEndPoint: 'app/student/comment/getReply/$postId?more=null',
+    );
+    if (apiResponse.isSuccessful) {
+      commentList.value =
+          (apiResponse.data as List).map((e) => CommentModel.fromMap(e)).toList();
+      // postList.value[index] = postmodelList.first;
+      postList.refresh();
+    }
+  }
+//============================= Create Post comments =========================================//
+  Future<void> createPostComments(int postId, int index) async {
+    ApiResponse apiResponse = await _apiCommunication.doPostRequest(
+      apiEndPoint: 'app/student/comment/createComment',
+      requestData: {
+        'feed_id':postId,
+        'feed_user_id':'',
+        'comment_txt':commentController.text,
+        'commentSource':'COMMUNITY'
+      }
+    );
+    if (apiResponse.isSuccessful) {
+      fetchPostComments(postId, index);
+      commentController.clear();
+      // commentList.value =
+      //     (apiResponse.data as List).map((e) => CommentModel.fromMap(e)).toList();
+      // // postList.value[index] = postmodelList.first;
+      postList.refresh();
+    }
+  }
+//============================= Create Reply on comments =========================================//
+  Future<void> createPostReplyComments(int postId, int index, String commentId) async {
+    ApiResponse apiResponse = await _apiCommunication.doPostRequest(
+      apiEndPoint: 'app/student/comment/createComment',
+      requestData: {
+        'feed_id':postId,
+        'feed_user_id':'',
+        'parent_id':int.parse(commentId),
+        'comment_txt':commentController.text,
+        'commentSource':'COMMUNITY'
+      }
+    );
+    if (apiResponse.isSuccessful) {
+      fetchPostComments(postId, index);
+      commentReplyController.clear();
+      // commentList.value =
+      //     (apiResponse.data as List).map((e) => CommentModel.fromMap(e)).toList();
+      // // postList.value[index] = postmodelList.first;
+      postList.refresh();
+    }
+  }
 
 
 
@@ -273,71 +326,71 @@ void logout() {
     }
   }
 
-  Future commentOnPost(int index, PostModel postModel) async {
-    debugPrint('Comment API Called============================');
-    if (commentController.text.isNotEmpty || xfiles.value.isNotEmpty) {
-      final ApiResponse apiResponse = await _apiCommunication.doPostRequest(
-          apiEndPoint: 'save-user-comment-by-post',
-          isFormData: true,
-          enableLoading: true,
-          requestData: {
-            // 'user_id': postModel.user_id?.id,
-            'post_id': postModel.id,
-            'comment_name': commentController.text,
-            'link': null,
-            'link_title': null,
-            'link_description': null,
-            'link_image': null
-          },
-          fileKey: 'image_or_video',
-          mediaXFiles: xfiles.value,
-          responseDataKey: 'posts');
+  // Future commentOnPost(int index, PostModel postModel) async {
+  //   debugPrint('Comment API Called============================');
+  //   if (commentController.text.isNotEmpty || xfiles.value.isNotEmpty) {
+  //     final ApiResponse apiResponse = await _apiCommunication.doPostRequest(
+  //         apiEndPoint: 'save-user-comment-by-post',
+  //         isFormData: true,
+  //         enableLoading: true,
+  //         requestData: {
+  //           // 'user_id': postModel.user_id?.id,
+  //           'post_id': postModel.id,
+  //           'comment_name': commentController.text,
+  //           'link': null,
+  //           'link_title': null,
+  //           'link_description': null,
+  //           'link_image': null
+  //         },
+  //         fileKey: 'image_or_video',
+  //         mediaXFiles: xfiles.value,
+  //         responseDataKey: 'posts');
 
-      if (apiResponse.isSuccessful) {
-        if (postList.value[index].comments != null) {
-          // updatePostList(postModel.id ?? '', index);
-          commentController.clear();
-          debugPrint('Hello');
-          xfiles.value.clear();
-        }
-      } else {
-        debugPrint('Failure');
-      }
-    } else {
-      debugPrint('Can not do empty comment');
-    }
-  }
+  //     if (apiResponse.isSuccessful) {
+  //       if (postList.value[index].comments != null) {
+  //         // updatePostList(postModel.id ?? '', index);
+  //         commentController.clear();
+  //         debugPrint('Hello');
+  //         xfiles.value.clear();
+  //       }
+  //     } else {
+  //       debugPrint('Failure');
+  //     }
+  //   } else {
+  //     debugPrint('Can not do empty comment');
+  //   }
+  // }
 
-  void commentReply({
-    required String comment_id,
-    required String replies_comment_name,
-    required String post_id,
-    required int postIndex,
-  }) async {
-    if (replies_comment_name.isNotEmpty || xfiles.value.isNotEmpty) {
-      ApiResponse apiResponse = await _apiCommunication.doPostRequest(
-          apiEndPoint: 'reply-comment-by-direct-post',
-          enableLoading: true,
-          isFormData: true,
-          requestData: {
-            'comment_id': comment_id,
-            'replies_user_id': userModel.id,
-            'replies_comment_name': replies_comment_name,
-            'post_id': post_id,
-          },
-          fileKey: 'image_or_video',
-          mediaXFiles: xfiles.value);
+  // void commentReply({
+  //   required String comment_id,
+  //   required String replies_comment_name,
+  //   required String post_id,
+  //   required int postIndex,
+  // }) async {
+  //   if (replies_comment_name.isNotEmpty || xfiles.value.isNotEmpty) {
+  //     ApiResponse apiResponse = await _apiCommunication.doPostRequest(
+  //         apiEndPoint: 'reply-comment-by-direct-post',
+  //         enableLoading: true,
+  //         isFormData: true,
+  //         requestData: {
+  //           'comment_id': comment_id,
+  //           'replies_user_id': userModel.id,
+  //           'replies_comment_name': replies_comment_name,
+  //           'post_id': post_id,
+  //         },
+  //         fileKey: 'image_or_video',
+  //         mediaXFiles: xfiles.value);
 
-      if (apiResponse.isSuccessful) {
-        updatePostList(post_id, postIndex);
-        commentReplyController.text = '';
+  //     if (apiResponse.isSuccessful) {
+  //       updatePostList(post_id, postIndex);
+  //       commentReplyController.text = '';
 
-        xfiles.value.clear();
-      }
-    } else {
-      debugPrint('Can not do empty replay comment');
-    }
-  }
+  //       xfiles.value.clear();
+  //     }
+  //   } else {
+  //     debugPrint('Can not do empty replay comment');
+  //   }
+  // }
 
   void commentReaction({
     required int postIndex,
