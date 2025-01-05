@@ -63,27 +63,26 @@ class CommentComponent extends StatelessWidget {
     // List<CommentReplay> commentList = postModel.comments[index].replies?? [];
 
     HomeController controller = Get.find();
-    
+
     List<CommentModel> commentList = controller.commentList.value ?? [];
 
-
     RxBool emojiShowing = true.obs;
-    RxBool isCommentValid = false.obs; // Reactive boolean for comment validity
-    // RxBool isReplyValid = false.obs; // Reactive boolean for comment validity
+    RxBool isCommentValid = false.obs;
+    RxBool isReplyValid = false.obs;
 
     void validateComment(String value) {
-      isCommentValid.value =
-          value.trim().isNotEmpty; // Check if input is not empty or spaces
+      isCommentValid.value = value.trim().isNotEmpty;
     }
-    // void validateReply(String value) {
-    //   isReplyValid.value =
-    //       value.trim().isNotEmpty; // Check if input is not empty or spaces
-    // }
+
+    void validateReply(String value) {
+      isReplyValid.value = value.trim().isNotEmpty;
+    }
 
     return SizedBox(
-      height: Get.height - 100,
+      height: Get.height - 150,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // ===================================================== Comment List Header =====================================================//
           Padding(
@@ -113,156 +112,130 @@ class CommentComponent extends StatelessWidget {
           // ===================================================== Comment List =====================================================//
           Expanded(
             child: ListView.builder(
-                physics: const ScrollPhysics(),
-                itemCount: commentList.length,
-                shrinkWrap: true,
-                itemBuilder: (context, commentIndex) {
-                  CommentModel commentModel = commentList[commentIndex];
-                  return CommentTile(
-                    onCommentEdit: onCommentEdit,
-                    commentModel: commentModel,
-                    inputNodes: focusNode,
-                    textEditingController: commentController,
-                    onSelectCommentReaction: (reaction) {
-                      onSelectCommentReaction(reaction, commentModel.id.toString() );
-                    },
-                    onSelectCommentReplayReaction:
-                        (reaction, commentRepliesId) {
-                      onSelectCommentReplayReaction(
-                          reaction, commentModel.id.toString() , commentRepliesId);
-                    },
-                    commentIndex: commentIndex,
-                    onCommentDelete: onCommentDelete,
-                    onCommentReplayDelete: onCommentReplayDelete,
-                    onCommentReplayEdit: onCommentReplayEdit,
-                  );
-                }),
-            //),
-          ),
-
-          Center(
-            child: Obx(
-              () => controller.isLoadingNewsFeed.value == true
-                  ? const CircularProgressIndicator()
-                  : const SizedBox(
-                      height: 0,
-                      width: 0,
-                    ),
+              physics: const ScrollPhysics(),
+              itemCount: commentList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, commentIndex) {
+                CommentModel commentModel = commentList[commentIndex];
+                return CommentTile(
+                  onCommentEdit: onCommentEdit,
+                  commentModel: commentModel,
+                  inputNodes: focusNode,
+                  textEditingController: commentController,
+                  onSelectCommentReaction: (reaction) {
+                    onSelectCommentReaction(
+                        reaction, commentModel.id.toString());
+                  },
+                  onSelectCommentReplayReaction: (reaction, commentRepliesId) {
+                    onSelectCommentReplayReaction(
+                        reaction, commentModel.id.toString(), commentRepliesId);
+                  },
+                  commentIndex: commentIndex,
+                  onCommentDelete: onCommentDelete,
+                  onCommentReplayDelete: onCommentReplayDelete,
+                  onCommentReplayEdit: onCommentReplayEdit,
+                );
+              },
             ),
           ),
 
           // ===================================================== Post new Comment =====================================================//
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: RoundCornerNetworkImage(
-                    imageUrl:
-                        (userModel.profilePic ?? '')),
-              ),
-              Container(
-                height: 40,
-                width: Get.width - 80,
-                padding: const EdgeInsets.all(5),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.grey
-                        .withOpacity(0.1), //Color.fromARGB(135, 238, 238, 238),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: focusNode,
-                        controller: commentController,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          hintText: 'Comment as ${userModel.fullName} ...',
-                          hintStyle: const TextStyle(fontSize: 15),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (value) => validateComment(value),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Comment cannot be empty.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            debugPrint('=============photo clicked======');
-                            controller.pickFiles();
-                          },
-                          child: const Image(
-                              height: 24,
-                              image: AssetImage(AppAssets.IMAGE_COMMENT_ICON)),
-                        ),
-                        const SizedBox(width: 10),
-
-                        InkWell(
-                          onTap: () {
-                            if (emojiShowing.value == false) {
-                              emojiShowing.value = true;
-                            } else {
-                              emojiShowing.value = false;
-                            }
-
-                            // _emojiShowing.value!=_emojiShowing.value;
-                          },
-                          child: const Image(
-                              height: 24,
-                              image: AssetImage(AppAssets.REACT_COMMENT_ICON)),
-                        ),
-
-                        ///////////////////////////////////////////////////////////////////////////////
-
-                        const SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                        
-                            if (controller.isReply.value == false) {
-                              if (isCommentValid.value) {
-                                onTapSendComment();
-                              } else {
-                                null;
-                              }
-
-                            } else {
-                           if(isCommentValid.value){
-                               onTapReplayComment(
-                                  comment_id: controller.commentsID.value,
-                                  commentReplay: commentController.text);
-                              controller.isReply.value = false;
-                              commentController.clear();
-                           }
-                           else{
-                            null;
-                           }
-                            }
-                          },
-                          child: const Image(
-                              height: 24,
-                              image: AssetImage(AppAssets.SEND_COMMENT_ICON)),
-                        ),
-                      ],
-                    ),
-                  ],
+          Container(
+            padding: const EdgeInsets.only(
+                bottom: 30), 
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: RoundCornerNetworkImage(
+                      imageUrl: (userModel.profilePic ?? '')),
                 ),
-              ),
-            ],
+                Container(
+                  height: 60,
+                  width: Get.width - 80,
+                  padding: const EdgeInsets.all(5),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: focusNode,
+                          controller: commentController,
+                          decoration: InputDecoration(
+                            isCollapsed: true,
+                            hintText: 'Comment as ${userModel.fullName} ...',
+                            hintStyle: const TextStyle(fontSize: 15),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (value) => validateComment(value),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Comment cannot be empty.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              controller.pickFiles();
+                            },
+                            child: const Image(
+                                height: 24,
+                                image:
+                                    AssetImage(AppAssets.IMAGE_COMMENT_ICON)),
+                          ),
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () {
+                              emojiShowing.value = !emojiShowing.value;
+                            },
+                            child: const Image(
+                                height: 24,
+                                image:
+                                    AssetImage(AppAssets.REACT_COMMENT_ICON)),
+                          ),
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () {
+                              if (controller.isReply.value == false) {
+                                if (isCommentValid.value) {
+                                  onTapSendComment();
+                                }
+                              } else {
+                                if (isCommentValid.value) {
+                                  onTapReplayComment(
+                                    comment_id: controller.commentsID.value,
+                                    commentReplay: commentController.text,
+                                  );
+                                  controller.isReply.value = false;
+                                  commentController.clear();
+                                }
+                              }
+                            },
+                            child: const Image(
+                                height: 24,
+                                image: AssetImage(AppAssets.SEND_COMMENT_ICON)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
 
+          // ===================================================== Display Selected Images =====================================================//
           Obx(() => controller.xfiles.value.isEmpty
-              ? const SizedBox(
-                  height: 0,
-                  width: 0,
-                )
+              ? const SizedBox(height: 0, width: 0)
               : Container(
                   width: Get.width - 50,
                   padding: const EdgeInsets.all(10),
@@ -272,38 +245,39 @@ class CommentComponent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Wrap(
-                            children: controller.xfiles.value
-                                .map((e) => Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Image(
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                          image: FileImage(File(e.path))),
-                                    ))
-                                .toList()),
+                          children: controller.xfiles.value
+                              .map((e) => Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Image(
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 100,
+                                        image: FileImage(File(e.path))),
+                                  ))
+                              .toList(),
+                        ),
                         IconButton(
-                            onPressed: () {
-                              controller.xfiles.value.clear();
-                              controller.xfiles.refresh();
-                            },
-                            icon: const Icon(Icons.delete))
+                          onPressed: () {
+                            controller.xfiles.value.clear();
+                            controller.xfiles.refresh();
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
                       ],
                     ),
                   ),
                 )),
 
+          // ===================================================== Emoji Picker =====================================================//
           Obx(
             () => Offstage(
               offstage: emojiShowing.value,
               child: EmojiPicker(
                 textEditingController: commentController,
-                //scrollController: _scrollController,
                 config: Config(
                   height: 256,
                   checkPlatformCompatibility: true,
                   emojiViewConfig: EmojiViewConfig(
-                    // Issue: https://github.com/flutter/flutter/issues/28894
                     emojiSizeMax: 28 *
                         (foundation.defaultTargetPlatform == TargetPlatform.iOS
                             ? 1.2
@@ -329,7 +303,7 @@ class CommentComponent extends StatelessWidget {
 
           const SizedBox(
             height: 10,
-          )
+          ),
         ],
       ),
     );
