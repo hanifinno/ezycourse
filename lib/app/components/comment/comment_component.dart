@@ -141,24 +141,18 @@ class CommentComponent extends StatelessWidget {
 
           // ===================================================== Post new Comment =====================================================//
           Container(
-            padding: const EdgeInsets.only(
-                bottom: 30), 
+            padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: RoundCornerNetworkImage(
-                      imageUrl: (userModel.profilePic ?? '')),
-                ),
                 Container(
                   height: 60,
-                  width: Get.width - 80,
-                  padding: const EdgeInsets.all(5),
+                  width: Get.width - 50,
+                  padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(20)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -167,8 +161,19 @@ class CommentComponent extends StatelessWidget {
                           focusNode: focusNode,
                           controller: commentController,
                           decoration: InputDecoration(
+                            icon: CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.grey.shade200,
+                                backgroundImage:
+                                    userModel.profilePic != null &&
+                                            userModel.profilePic!.isNotEmpty
+                                        ? NetworkImage(userModel.profilePic!)
+                                            as ImageProvider
+                                        : AssetImage(
+                                            AppAssets.DEFAULT_PROFILE_IMAGE),
+                                child: SizedBox()),
                             isCollapsed: true,
-                            hintText: 'Comment as ${userModel.fullName} ...',
+                            hintText: 'Write a comment...',
                             hintStyle: const TextStyle(fontSize: 15),
                             border: InputBorder.none,
                           ),
@@ -183,46 +188,35 @@ class CommentComponent extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          InkWell(
-                            onTap: () {
-                            },
-                            child: const Image(
-                                height: 24,
-                                image:
-                                    AssetImage(AppAssets.IMAGE_COMMENT_ICON)),
-                          ),
                           const SizedBox(width: 10),
                           InkWell(
-                            onTap: () {
-                              emojiShowing.value = !emojiShowing.value;
-                            },
-                            child: const Image(
-                                height: 24,
-                                image:
-                                    AssetImage(AppAssets.REACT_COMMENT_ICON)),
-                          ),
-                          const SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {
-                              if (controller.isReply.value == false) {
-                                if (isCommentValid.value) {
-                                  onTapSendComment();
+                              onTap: () {
+                                if (controller.isReply.value == false) {
+                                  if (isCommentValid.value) {
+                                    onTapSendComment();
+                                  }
+                                } else {
+                                  if (isCommentValid.value) {
+                                    onTapReplayComment(
+                                      comment_id: controller.commentsID.value,
+                                      commentReplay: commentController.text,
+                                    );
+                                    controller.isReply.value = false;
+                                    commentController.clear();
+                                  }
                                 }
-                              } else {
-                                if (isCommentValid.value) {
-                                  onTapReplayComment(
-                                    comment_id: controller.commentsID.value,
-                                    commentReplay: commentController.text,
-                                  );
-                                  controller.isReply.value = false;
-                                  commentController.clear();
-                                }
-                              }
-                            },
-                            child: const Image(
-                                height: 24,
-                                image: AssetImage(AppAssets.SEND_COMMENT_ICON)),
-                          ),
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF004D40),
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                ),
+                                child: Image.asset(AppAssets.SENT),
+                              )),
                         ],
                       ),
                     ],

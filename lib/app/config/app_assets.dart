@@ -187,6 +187,8 @@ class AppAssets {
   static const String LIFE_EVENT_ICON = 'assets/icon/create_post/liveevent.png';
   static const String ADD_FEELINGS_ICON =
       'assets/icon/create_post/feelings.png';
+  static const String SENT =
+      'assets/icon/sent.png';
 
   // User Profile Icons
   static const String USER_BIRTHDAY_ICON =
