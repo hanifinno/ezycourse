@@ -1,4 +1,3 @@
-import 'package:ezycourse/app/global_components/custom_elevated_button.dart';
 import 'package:ezycourse/app/modules/home/components/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +5,6 @@ import '../../../components/comment/comment_component.dart';
 import '../../../components/image.dart';
 import '../../../components/post/post.dart';
 import '../../../components/post/post_shimer_loader.dart';
-import '../../../config/app_assets.dart';
 import '../../../global_components/custom_app_bar.dart';
 import '../../../models/post.dart';
 import '../../../routes/app_pages.dart';

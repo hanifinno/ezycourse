@@ -2,7 +2,6 @@ import 'package:ezycourse/app/components/comment/comment_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/api_constant.dart';
 import '../../../data/login_creadential.dart';
@@ -211,7 +210,10 @@ class HomeController extends GetxController {
     );
 
     if (apiResponse.isSuccessful) {
-      postList.refresh();
+      
+      // postList.refresh();
+      postList.value.clear();
+      fetchCommunityPosts();
      
       debugPrint(apiResponse.message);
       // updatePostList(postModel.id ?? '', index);
@@ -522,18 +524,6 @@ void logout() {
   /////////////////////////////////////////////////////////////////////
 
 
-  void launchURL(String urlString) async {
-    final Uri url = Uri.parse(urlString);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.inAppBrowserView,
-        browserConfiguration: const BrowserConfiguration(showTitle: true),
-      );
-    } else {
-      throw 'Could not launch $urlString';
-    }
-  }
 
   ////////////////////////////////////////////////////////////////////
 

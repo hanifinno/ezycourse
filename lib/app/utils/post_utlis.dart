@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:url_launcher/url_launcher.dart';
 
 
 import '../config/app_assets.dart';
@@ -107,61 +106,6 @@ List<TextSpan> getTextWithLink(String text) {
   return textWithLink;
 }
 
-class LinkText extends StatelessWidget {
-  final String text;
-
-  const LinkText({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    final RegExp linkRegExp = RegExp(
-      r'(https?://[^\s]+)',
-      caseSensitive: false,
-    );
-
-    final List<TextSpan> textSpans = [];
-    final matches = linkRegExp.allMatches(text);
-
-    int lastMatchEnd = 0;
-
-    for (final match in matches) {
-      if (match.start != lastMatchEnd) {
-        textSpans.add(TextSpan(
-          text: text.substring(lastMatchEnd, match.start),
-          style: const TextStyle(color: Colors.black),
-        ));
-      }
-
-      final String url = match.group(0)!;
-
-      textSpans.add(TextSpan(
-        text: url,
-        style: const TextStyle(
-            color: Colors.blue, decoration: TextDecoration.underline),
-        recognizer: TapGestureRecognizer()
-          ..onTap = () async {
-            await launchUrl(Uri.parse(url),
-                mode: LaunchMode.externalApplication);
-          },
-      ));
-
-      lastMatchEnd = match.end;
-    }
-
-    if (lastMatchEnd != text.length) {
-      textSpans.add(TextSpan(
-        text: text.substring(lastMatchEnd),
-        style: const TextStyle(color: Colors.black),
-      ));
-    }
-
-    return RichText(
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(children: textSpans),
-    );
-  }
-}
 
 // Reaction<String>? getSelectedReaction(PostModel postModel) {
 //   LoginCredential credential = LoginCredential();
