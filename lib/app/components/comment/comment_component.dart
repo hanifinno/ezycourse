@@ -185,7 +185,6 @@ class CommentComponent extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              controller.pickFiles();
                             },
                             child: const Image(
                                 height: 24,

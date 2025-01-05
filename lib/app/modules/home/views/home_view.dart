@@ -123,64 +123,16 @@ class HomeView extends GetView<HomeController> {
                                           () => CommentComponent(
                                             onCommentEdit:
                                                 (commentModel) async {
-                                              // await Get.toNamed(
-                                              //     Routes.EDIT_POST_COMMENT,
-                                              //     arguments: {
-                                              //       'post_comment':
-                                              //           commentModel
-                                              //               .commentText,
-                                              //       'post_id':
-                                              //           commentModel.post_id,
-                                              //       'comment_id':
-                                              //           commentModel.id,
-                                              //       'comment_type':
-                                              //           commentModel
-                                              //               .comment_type,
-                                              //       'image_video':
-                                              //           commentModel
-                                              //               .image_or_video
-                                              //     });
-                                              // controller.updatePostList(
-                                              //     commentModel.post_id ?? '',
-                                              //     actualPostIndex);
-                                            },
+                                                  },
                                             onCommentReplayEdit:
                                                 (commentReplayModel) async {
-                                              // await Get.toNamed(
-                                              //     Routes
-                                              //         .EDIT_REPLY_POST_COMMENT,
-                                              //     arguments: {
-                                              //       'reply_comment':
-                                              //           commentReplayModel
-                                              //               .replies_comment_name,
-                                              //       'replay_post_id':
-                                              //           commentReplayModel
-                                              //               .post_id,
-                                              //       'comment_replay_id':
-                                              //           commentReplayModel.id,
-                                              //       'comment_type':
-                                              //           commentReplayModel
-                                              //               .comment_type,
-                                              //       'image_video':
-                                              //           commentReplayModel
-                                              //               .image_or_video
-                                              //     });
-                                              // controller.updatePostList(
-                                              //     commentReplayModel
-                                              //             .post_id ??
-                                              //         '',
-                                              //     actualPostIndex);
-                                            },
+                                                   },
                                             onCommentDelete: (commentModel) {
-                                              // controller.commentDelete(
-                                              //     commentModel.id ?? '',
-                                              //     commentModel.post_id ?? '',
-                                              //     actualPostIndex);
+                                              
                                             },
                                             onCommentReplayDelete:
                                                 (replyId, postId) {
-                                              controller.replyDelete(replyId,
-                                                  postId, actualPostIndex);
+                                             
                                             },
                                             commentController:
                                                 controller.commentController,
@@ -201,40 +153,20 @@ class HomeView extends GetView<HomeController> {
                                                       postModel.id ?? 0,
                                                       actualPostIndex,
                                                       comment_id);
-                                              // controller.commentReply(
-                                              //   comment_id: comment_id,
-                                              //   replies_comment_name:
-                                              //       commentReplay,
-                                              //   post_id:
-                                              //       postModel.id.toString() ??
-                                              //           '',
-                                              //   postIndex: actualPostIndex,
-                                              // );
+                                           
                                             },
                                             onSelectCommentReaction: (
                                               reaction,
                                               commentId,
                                             ) {
-                                              controller.commentReaction(
-                                                postIndex: actualPostIndex,
-                                                reaction_type: reaction,
-                                                post_id:
-                                                    postModel.id.toString() ??
-                                                        '',
-                                                comment_id: commentId,
-                                              );
+                                             
                                             },
                                             onSelectCommentReplayReaction: (
                                               reaction,
                                               commentId,
                                               commentRepliesId,
                                             ) {
-                                              controller.commentReplyReaction(
-                                                  actualPostIndex,
-                                                  reaction,
-                                                  postModel.id.toString() ?? '',
-                                                  commentId,
-                                                  commentRepliesId);
+                                            
                                             },
                                             onTapViewReactions: () {
                                               Get.toNamed(Routes.REACTIONS,
@@ -261,49 +193,22 @@ class HomeView extends GetView<HomeController> {
                                     },
                                     onTapEditPost: () {
                                       Get.back();
-                                      controller.onTapEditPost(postModel);
                                     },
                                     onTapHidePost: () {
-                                      controller.hidePost(
-                                          1,
-                                          postModel.id.toString(),
-                                          actualPostIndex);
+                                     
                                     },
                                     onTapBookMardPost: () {
-                                      controller.bookmarkPost(
-                                          postModel.id.toString(),
-                                          postModel.feedPrivacy.toString(),
-                                          actualPostIndex);
+                                     
                                     },
                                     onTapRemoveBookMardPost: () {
-                                      // controller.removeBookmarkPost(
-                                      //     postModel.id.toString() ?? '',
-                                      //     postModel.bookmark?.id ?? '',
-                                      //     actualPostIndex);
+                                    
                                     },
                                     onTapCopyPost: () async {
-                                      // await Clipboard.setData(ClipboardData(
-                                      //     text: '$baseUrl${postModel.id}'));
-                                      // Get.back();
-                                      // showSuccessSnackkbar(
-                                      //     message:
-                                      //         'Your link copied to clipboard');
+                                     
                                     },
                                     onTapViewOtherProfile:
-                                        // postModel.event_type == 'relationship'
-                                        //     ?
-                                        () {
-                                      // Get.toNamed(
-                                      //     Routes.OTHERS_PROFILE,
-                                      //     arguments: {
-                                      //       'username': postModel
-                                      //           .lifeEventId
-                                      //           ?.toUserId
-                                      //           ?.username,
-                                      //       'isFromReels': false
-                                      //     });
-                                    },
-                                    // : null,
+                                          () {
+                                       },
                                     onTapShareViewOtherProfile: () {},
 
                                     /* ============Share Post BottoSheet ==========*/
@@ -315,9 +220,7 @@ class HomeView extends GetView<HomeController> {
                                   return Container(); // Or return an empty widget or error widget
                                 }
 
-                                // }
-                                // PostModel postModel =
-                                //     controller.postList.value[postIndex];
+                              
                               },
                             ),
                     ],
