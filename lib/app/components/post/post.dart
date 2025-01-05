@@ -60,7 +60,7 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration:  BoxDecoration(color: Colors.grey.shade200),
       child: Column(
                   children: [
                    PostHeader(

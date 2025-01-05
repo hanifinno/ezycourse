@@ -16,11 +16,11 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
     required this.text,
-    this.imageAsset, // Optional asset image
-    this.textColor = Colors.white, // Default text color
-    this.backgroundColor = Colors.blue, // Default background color
-    this.fontSize = 16.0, // Default font size
-    this.fontWeight = FontWeight.normal, // Default font weight
+    this.imageAsset,
+    this.textColor = Colors.white, 
+    this.backgroundColor = Colors.blue, 
+    this.fontSize = 16.0,
+    this.fontWeight = FontWeight.normal, 
     this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
     this.onPressed,
     this.splashColor,

@@ -1,3 +1,4 @@
+import 'package:ezycourse/app/global_components/custom_elevated_button.dart';
 import 'package:ezycourse/app/modules/home/components/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../../../config/app_assets.dart';
 import '../../../global_components/custom_app_bar.dart';
 import '../../../models/post.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/color.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -17,67 +19,78 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(title: 'Python Community', subtitle: '#General',),
+      backgroundColor: Colors.grey.shade200,
+      appBar: const CustomAppBar(
+        title: 'Python Community',
+        subtitle: '#General',
+      ),
       body: RefreshIndicator(
           onRefresh: () async {
             controller.postList.value.clear();
             controller.postList.refresh();
-            controller.pageNo =1;
-            controller.totalPageCount =0;
+            controller.pageNo = 1;
+            controller.totalPageCount = 0;
             controller.fetchCommunityPosts();
-            
           },
           child: SingleChildScrollView(
             controller: controller.postScrollController,
             child: Column(
               children: [
                 //================================================== Do Post Section ==================================================//
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    RoundCornerNetworkImage(
-                      imageUrl: (
-                          controller.userModel.profilePic ?? ''),
-                    ),
                     InkWell(
                       onTap: controller.onTapCreatePost,
                       child: Container(
-                        height: 40,
-                        width: Get.width - 140,
+                        height: 80,
+                        width: Get.width - 40,
                         padding: const EdgeInsets.all(5),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          maxLines: 1,
-                          "What's on your mind, ${controller.userModel.fullName}?",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          // style: TextStyle(
-                          //   fontSize: 16,
-                          // ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RoundCornerNetworkImage(
+                              imageUrl: (controller.userModel.profilePic ?? ''),
+                            ),
+                            const Text(
+                              maxLines: 5,
+                              "Write something here....",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start,
+                              // style: TextStyle(
+                              //   fontSize: 16,
+                              // ),
+                            ),
+                            Container(
+                          height: 40,
+                          width: Get.width * 0.24,
+                          decoration: BoxDecoration(
+                              color: PRIMARY_COLOR,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: TextButton(
+                            onPressed: () {
+                              controller.onTapCreatePost();
+                            },
+                            child: const Text(
+                              'Post',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                          ],
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.withOpacity(0.1),
-                      ),
-                      child: IconButton(
-                          onPressed: () {
-                            controller.pickMediaFiles();
-                          },
-                          icon: const Image(
-                              height: 25,
-                              image: AssetImage(AppAssets.Gallery_ICON))),
-                    )
                   ],
                 ),
-    
+                const SizedBox(
+                  height: 30,
+                ),
                 // ================================================================= Post =================================================================//
                 Obx(
                   () => Column(
@@ -90,25 +103,23 @@ class HomeView extends GetView<HomeController> {
                               itemCount: controller.postList.value.length,
                               itemBuilder: (context, postIndex) {
                                 int actualPostIndex = postIndex;
-                                if (
-                                        controller.postList.value.length!=0) {
+                                if (controller.postList.value.length != 0) {
                                   // debugPrint('Video Screen triggered:::::::::::: ${controller.videoAdList.value.first.campaignCoverPic?[0]}');
                                   PostModel postModel = controller
                                       .postList.value[actualPostIndex];
                                   return PostCard(
-    
                                     model: postModel,
                                     onSelectReaction: (reaction) {
                                       controller.reactOnPost(
-                                        postModel: postModel,
-                                        reaction: reaction,
-                                        index: actualPostIndex,
-                                        action: 'Create'
-                                      );
+                                          postModel: postModel,
+                                          reaction: reaction,
+                                          index: actualPostIndex,
+                                          action: 'Create');
                                       debugPrint(reaction);
                                     },
                                     onPressedComment: () {
-                                      controller.fetchPostComments(postModel.id??1, actualPostIndex);
+                                      controller.fetchPostComments(
+                                          postModel.id ?? 1, actualPostIndex);
                                       Get.bottomSheet(
                                         Obx(
                                           () => CommentComponent(
@@ -179,14 +190,19 @@ class HomeView extends GetView<HomeController> {
                                                 .value[actualPostIndex],
                                             userModel: controller.userModel,
                                             onTapSendComment: () {
-                                              controller.createPostComments(postModel.id??1,
+                                              controller.createPostComments(
+                                                  postModel.id ?? 1,
                                                   actualPostIndex);
                                             },
                                             onTapReplayComment: ({
                                               required commentReplay,
                                               required comment_id,
                                             }) {
-                                              controller.createPostReplyComments(postModel.id??0, actualPostIndex, comment_id);
+                                              controller
+                                                  .createPostReplyComments(
+                                                      postModel.id ?? 0,
+                                                      actualPostIndex,
+                                                      comment_id);
                                               // controller.commentReply(
                                               //   comment_id: comment_id,
                                               //   replies_comment_name:
@@ -291,17 +307,16 @@ class HomeView extends GetView<HomeController> {
                                     },
                                     // : null,
                                     onTapShareViewOtherProfile: () {},
-    
+
                                     /* ============Share Post BottoSheet ==========*/
-                                    onPressedShare:
-                                       () {},
+                                    onPressedShare: () {},
                                   );
                                 } else {
                                   debugPrint(
                                       'Invalid actualPostIndex: $actualPostIndex, postIndex: $actualPostIndex');
                                   return Container(); // Or return an empty widget or error widget
                                 }
-    
+
                                 // }
                                 // PostModel postModel =
                                 //     controller.postList.value[postIndex];
@@ -316,7 +331,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           )),
-          bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 
