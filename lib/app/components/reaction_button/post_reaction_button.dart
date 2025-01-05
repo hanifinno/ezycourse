@@ -169,7 +169,7 @@ ReactionModel? getSelectedPostReaction(
   for (post.LikeTypeModel reactionModel
       in postModel.likeType ?? []) {
     // if (reactionModel.user_id == userId) {
-      return getReactionModelAsType(reactionModel.reactionType?.toLowerCase()?? '');
+      return getReactionModelAsType(reactionModel.reactionType?.toUpperCase()?? '');
     // }
   }
 

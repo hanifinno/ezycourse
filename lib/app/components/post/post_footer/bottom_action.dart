@@ -31,7 +31,7 @@ class BottomAction extends StatelessWidget {
             children: [
               PostReactionButton(
                 selectedReaction: getSelectedPostReaction(
-                    model, loginCredential.getUserData().id.toString()?? ''),
+                    model, loginCredential.getAccessToken().toString()?? ''),
                 onChangedReaction: (reaction) {
                   onSelectReaction(reaction.value.toUpperCase());
                 },
