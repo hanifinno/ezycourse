@@ -137,8 +137,8 @@ class CreatePostView extends GetView<CreatePostController> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          // Your logic for selecting colors
-                          print('Selected color index: $index');
+                         controller.isBackgroundColorPost.value = true; 
+            controller.selectColor(postListColor[index]);
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),

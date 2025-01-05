@@ -80,11 +80,7 @@ class HomeController extends GetxController {
     isLoadingNewsFeed.value = false;
   }
 
-  void onTapEditPost(PostModel model) async {
-    await Get.toNamed(Routes.EDIT_POST, arguments: model);
-    postList.value.clear();
-    fetchCommunityPosts();
-  }
+ 
 //============================= Get Posts =========================================//
 
   Future<void> fetchCommunityPosts() async {
@@ -213,46 +209,6 @@ void logout() {
     Get.offAllNamed(Routes.LOGIN);
   }
 
-
-  //======================================================== Comment Related Functions ===============================================//
-
-  Future<List<CommentModel>> getSinglePostsComments(String postID) async {
-    isLoadingNewsFeed.value = true;
-
-    Rx<List<CommentModel>> commentList = Rx([]);
-
-    debugPrint(
-        '==================get SinglePosts Comments=========Start==========================');
-
-    final apiResponse = await _apiCommunication.doGetRequest(
-      responseDataKey: ApiConstant.FULL_RESPONSE,
-      apiEndPoint: 'get-all-comments-direct-post/$postID',
-    );
-    isLoadingNewsFeed.value = false;
-
-    debugPrint('ivalid user code$apiResponse');
-
-    debugPrint(
-        '==================get SinglePosts Comments=========Api Call done==========================');
-
-    if (apiResponse.isSuccessful) {
-      debugPrint(
-          '==================get SinglePosts Comments=========${apiResponse.data}==========================');
-
-      commentList.value.addAll(
-          (((apiResponse.data as Map<String, dynamic>)['comments']) as List)
-              .map((element) => CommentModel.fromMap(element))
-              .toList());
-
-      debugPrint(
-          '===================get SinglePosts Commentsn=================${commentList.value}===');
-
-      commentList.refresh();
-      return commentList.value;
-    } else {
-      return [];
-    }
-  }
 
  
  

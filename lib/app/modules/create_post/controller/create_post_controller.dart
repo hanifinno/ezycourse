@@ -30,22 +30,29 @@ class CreatePostController extends GetxController {
 
   RxString dropdownValue = privacyList.first.obs;
   Rx<List<XFile>> xfiles = Rx([]);
+  Rx<LinearGradient?> selectedColor = Rx(null);
 
-
-  String? getBackgroundColor() {
-    if (isBackgroundColorPost.value) {
-      final gradient = postGradientBackground.value;
-      if (gradient != null) {
-        return jsonEncode({
-          'colors': gradient.colors
-              .map((color) =>
-                  color.value.toRadixString(16).padLeft(8, '0').substring(2, 8))
-              .toList(),
-        });
-      }
-    }
-    return null;
+//==========selected bg color================================//
+void selectColor(LinearGradient? color) {
+    selectedColor.value = color;
   }
+
+//==========BG Color===========================//
+String? getBackgroundColor() {
+  if (isBackgroundColorPost.value && selectedColor.value != null) {
+    final gradient = selectedColor.value!;
+    final colors = gradient.colors
+        .map((color) => 'rgb(${color.red}, ${color.green}, ${color.blue})')
+        .toList();
+
+    return jsonEncode({
+      'backgroundImage':
+          'linear-gradient(45deg, ${colors[0]} 0%, ${colors[1]} 100%)',
+    });
+  }
+  return null;
+}
+
 
   bool isValidPost() {
     if (descriptionController.text.isNotEmpty || xfiles.value.isNotEmpty) {
@@ -53,7 +60,7 @@ class CreatePostController extends GetxController {
     }
     return false;
   }
-
+//===========create post=======================
   Future<void> onTapCreatePost() async {
     if (!isValidPost()) {
       showWarningSnackkbar(message: 'Empty post cannot be submitted');
@@ -67,6 +74,7 @@ class CreatePostController extends GetxController {
       'uploadType': 'text',
       'activity_type': 'group',
       'is_background': isBackgroundColorPost.value ? 1 : 0,
+      'bg_color':getBackgroundColor(),
       // 'post_background_color': getBackgroundColor(),
     };
 
@@ -96,7 +104,6 @@ class CreatePostController extends GetxController {
   void onInit() {
     _apiCommunication = ApiCommunication();
     _loginCredential = LoginCredential();
-    xfiles.value = Get.arguments?['media_files'] ?? [];
     descriptionController = TextEditingController();
     userModel = _loginCredential.getUserData();
     super.onInit();

@@ -99,8 +99,8 @@ class HomeView extends GetView<HomeController> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.postList.value.length,
-                              itemBuilder: (context, postIndex) {
-                                int actualPostIndex = postIndex;
+                              itemBuilder: (context, actualPostIndex) {
+                                // int actualPostIndex = postIndex;
                                 if (controller.postList.value.length != 0) {
                                   // debugPrint('Video Screen triggered:::::::::::: ${controller.videoAdList.value.first.campaignCoverPic?[0]}');
                                   PostModel postModel = controller
